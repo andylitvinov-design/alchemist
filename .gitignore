@@ -1,0 +1,6 @@
+.DS_Store
+*.swp
+*.tmp
+*.tmp2
+*.tmp3
+output/

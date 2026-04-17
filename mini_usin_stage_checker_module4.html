@@ -1,0 +1,1503 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мини-проверка ступени У-Син</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #475467;
+      --line: #d0d5dd;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 0%, #e6fffa 0%, var(--bg) 45%);
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 28px auto;
+      padding: 0 16px;
+    }
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 360px);
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+    .topbar-actions {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+    }
+    .topbar-actions .label {
+      margin-bottom: 6px;
+    }
+    h1 { margin: 0 0 8px; font-size: 24px; }
+    .hint { margin: 0; color: var(--muted); line-height: 1.45; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+    }
+    .card + .card-full { margin-top: 14px; }
+    .label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .controls { display: grid; gap: 10px; }
+    .control-group {
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e4e7ec;
+    }
+    .control-group:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .value-row { display: flex; align-items: center; gap: 10px; }
+    input[type="number"], input[type="text"], select {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      min-height: 38px;
+      font-size: 15px;
+      width: 100%;
+      background: #fff;
+    }
+    input[type="number"] { width: 120px; }
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
+    .chip {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: #0f3f3b;
+      border: 1px solid #99f6e4;
+      border-radius: 999px;
+      font-size: 12px;
+      padding: 4px 10px;
+      margin-bottom: 8px;
+    }
+    h2 { margin: 0 0 6px; font-size: 22px; }
+    h3 { margin: 0 0 10px; font-size: 18px; }
+    .range { margin: 0 0 10px; color: var(--muted); }
+    ul { margin: 0; padding-left: 18px; line-height: 1.45; }
+    .empty {
+      color: #b42318;
+      background: #fef3f2;
+      border: 1px solid #fecdca;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .btn {
+      min-height: 38px;
+      border-radius: 8px;
+      border: 1px solid #99f6e4;
+      background: #f0fdfa;
+      color: #0f766e;
+      font-weight: 600;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .btn:hover { background: #ccfbf1; }
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px 12px;
+      max-height: 220px;
+      overflow: auto;
+      padding-right: 6px;
+      margin-top: 8px;
+    }
+    .checklist label {
+      display: flex;
+      gap: 8px;
+      font-size: 14px;
+      align-items: flex-start;
+    }
+    .selected {
+      margin-top: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+    .pill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #99f6e4;
+      background: #f0fdfa;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 13px;
+    }
+    .pill button {
+      border: none;
+      background: transparent;
+      color: #115e59;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      padding: 0;
+    }
+    .muted { color: var(--muted); font-size: 14px; margin: 0; }
+    .summary {
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fafc;
+      padding: 10px 12px;
+      line-height: 1.45;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .export-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .export-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .export-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+    .export-panel {
+      margin-top: 14px;
+    }
+    .preview-live {
+      display: none;
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 16px 40px rgba(16, 24, 40, 0.08);
+      overflow: hidden;
+    }
+    .preview-live.is-visible { display: block; }
+    .preview-live-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+    }
+    .preview-live-body { padding: 16px; background: #fff; }
+    .preview-live-status { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+    @media print {
+      body.print-preview-mode { background: #fff; }
+      body.print-preview-mode .wrap > * { display: none !important; }
+      body.print-preview-mode .wrap > .export-panel {
+        display: block !important; margin: 0 !important; padding: 0 !important; border: none !important; box-shadow: none !important; background: #fff !important;
+      }
+      body.print-preview-mode .export-panel > :not(.preview-live) { display: none !important; }
+      body.print-preview-mode .preview-live { display: block !important; margin: 0 !important; border: none !important; box-shadow: none !important; }
+      body.print-preview-mode .preview-live-head { display: none !important; }
+      body.print-preview-mode .preview-live-body { padding: 0 !important; }
+    }
+    .recommend-list {
+      display: grid;
+      gap: 8px;
+      max-height: 360px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+    .rec-item {
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      line-height: 1.4;
+    }
+    .rec-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    textarea {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      min-height: 96px;
+      font-size: 15px;
+      width: 100%;
+      background: #fff;
+      resize: vertical;
+      font-family: inherit;
+    }
+    .transition-box {
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      line-height: 1.45;
+      display: grid;
+      gap: 8px;
+    }
+    .transition-box ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .transition-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .topbar { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      .checklist { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
+      .checklist { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="topbar">
+      <div>
+        <h1>Мини-проверка ступени У-Син</h1>
+        <p class="hint">Слева ввод ресурса «Я» и отдельного ресурса цели/здоровья, справа ступень и краткие особенности по DAO-модели.</p>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="meta-grid">
+          <input id="clientName" type="text" placeholder="Имя клиента">
+          <input id="reportDate" type="date">
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <label class="label" for="resourceInput">Ресурс «Я»</label>
+        <div class="controls">
+          <div class="control-group">
+            <div class="value-row">
+              <input id="resourceInput" type="number" min="0" max="10" step="0.1" value="3.8">
+              <strong id="valueEcho">3.8</strong>
+            </div>
+            <input id="resourceRange" type="range" min="0" max="10" step="0.1" value="3.8">
+          </div>
+          <div class="control-group">
+            <label class="label" for="goalHealthInput">Ресурс цели / здоровья</label>
+            <div class="value-row">
+              <input id="goalHealthInput" type="number" min="0" max="10" step="0.1" value="3.8">
+              <strong id="goalHealthEcho">3.8</strong>
+            </div>
+            <input id="goalHealthRange" type="range" min="0" max="10" step="0.1" value="3.8">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="chip">DAO / У-Син</span>
+        <h2 id="stageName">-</h2>
+        <p class="range" id="stageRange"></p>
+        <div id="stageBody"></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <span class="chip">Четвертый модуль</span>
+        <h3>Предыдущие значения ресурсов</h3>
+        <p class="muted">Введите предыдущие значения, чтобы справа увидеть понятный вывод по изменению ресурса «Я» и ресурса цели / здоровья.</p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label class="label" for="pastResourceInput">Предыдущий ресурс «Я»</label>
+            <div class="value-row">
+              <input id="pastResourceInput" type="number" min="0" max="10" step="0.1" value="3.2">
+              <strong id="pastResourceEcho">3.2</strong>
+            </div>
+            <input id="pastResourceRange" type="range" min="0" max="10" step="0.1" value="3.2">
+          </div>
+
+          <div class="control-group">
+            <label class="label" for="pastGoalHealthInput">Предыдущий ресурс цели / здоровья</label>
+            <div class="value-row">
+              <input id="pastGoalHealthInput" type="number" min="0" max="10" step="0.1" value="3.1">
+              <strong id="pastGoalHealthEcho">3.1</strong>
+            </div>
+            <input id="pastGoalHealthRange" type="range" min="0" max="10" step="0.1" value="3.1">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="chip">Выводы</span>
+        <h3>Вывод по динамике ресурсов</h3>
+        <p class="transition-label">Сопоставление строится по предыдущим значениям слева и текущим значениям из верхнего модуля.</p>
+        <div class="transition-box" id="resourceHistoryReport">
+          <p class="muted">Измените значения слева или сверху, чтобы увидеть вывод по динамике ресурсов.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <span class="chip">Препараты Баха</span>
+        <h3>Выбор препаратов</h3>
+        <p class="muted">Ввод поддерживает один или несколько препаратов через запятую/точку с запятой. Регистр не важен. Можно вводить англ. и русские названия (для популярных позиций).</p>
+
+        <label class="label" for="bachInput">Ввод по имени</label>
+        <div class="row">
+          <input id="bachInput" list="bachNames" type="text" placeholder="Например: Mimulus, Aspen; White Chestnut">
+          <button class="btn" id="addByInputBtn" type="button">Добавить</button>
+        </div>
+
+        <label class="label">Готовый список (отметить)</label>
+        <div class="checklist" id="bachChecklist"></div>
+
+        <div class="selected">
+          <label class="label">Выбрано</label>
+          <div class="pill-list" id="selectedList"></div>
+          <p class="muted" id="selectedEmpty">Пока ничего не выбрано.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="chip">Результаты</span>
+        <h3>Рекомендации по препаратам</h3>
+        <label class="label">Рекомендации по каждому выбранному препарату</label>
+        <div id="recommendList" class="recommend-list">
+          <p class="muted">Выберите препараты слева, чтобы увидеть рекомендации справа.</p>
+        </div>
+
+        <div class="selected">
+          <label class="label">Общий итог по сочетанию препаратов</label>
+          <div class="summary" id="overallText">Итоговая рекомендация появится после выбора препаратов.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <span class="chip">Второй модуль</span>
+        <h3>Препараты, которые были ранее (уже не нужны)</h3>
+        <p class="muted">Введите один или несколько препаратов через запятую/точку с запятой, затем нажмите «Добавить в прошлые».</p>
+
+        <label class="label" for="pastBachInput">Ввод прошлых препаратов</label>
+        <div class="row">
+          <input id="pastBachInput" list="bachNames" type="text" placeholder="Например: Mimulus, Aspen; White Chestnut">
+          <button class="btn" id="addPastBtn" type="button">Добавить в прошлые</button>
+        </div>
+
+        <div class="selected">
+          <label class="label">Ранее нужные, сейчас не нужны</label>
+          <div class="pill-list" id="pastSelectedList"></div>
+          <p class="muted" id="pastSelectedEmpty">Пока список пуст.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="chip">Анализ динамики</span>
+        <h3>Анализ и рекомендации (было / осталось)</h3>
+        <p class="transition-label">Сопоставление строится по текущему списку «Выбрано» и списку «Ранее нужные, сейчас не нужны».</p>
+        <div class="transition-box" id="transitionReport">
+          <p class="muted">Добавьте «ранее нужные» препараты слева, чтобы увидеть сравнительный анализ справа.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card export-panel">
+      <span class="chip">Экспорт отчета</span>
+      <h3>Предпросмотр и сохранение</h3>
+      <p class="export-note">Предпросмотр строится прямо на этой странице. На телефоне и на компьютере сохранение PDF идет через системный диалог печати.</p>
+      <div class="export-actions">
+        <button class="btn" id="previewReportBtn" type="button">Показать предпросмотр</button>
+        <button class="btn" id="downloadPdfBtn" type="button">Сохранить как PDF</button>
+        <button class="btn" id="printReportBtn" type="button">Распечатать</button>
+      </div>
+      <div class="preview-live" id="previewLive">
+        <div class="preview-live-head">
+          <strong>Предпросмотр отчета</strong>
+          <p class="preview-live-status" id="previewLiveStatus">Соберите отчет, затем откройте предпросмотр или сразу вызовите системную печать.</p>
+        </div>
+        <div class="preview-live-body" id="previewLiveBody"></div>
+      </div>
+    </section>
+  </main>
+
+  <datalist id="bachNames"></datalist>
+  <script>
+    const stages = [
+      { min: 0.0, max: 2.0, name: "Шторм", range: "0-2.0", points: ["Нестабильность и перегруз.", "Задача: выжить и собрать опору.", "Фокус: стабилизация и базовая безопасность."] },
+      { min: 2.0, max: 2.5, name: "Снежная Королева", range: "2.0-2.5", points: ["Холод, заморозка, хрупкость.", "Задача: мягкая разморозка.", "Фокус: удержание первого тепла."] },
+      { min: 2.5, max: 3.0, name: "Прометей", range: "2.5-3.0", points: ["Первые искры жизни.", "Задача: право проявляться.", "Фокус: защита собственного огня."] },
+      { min: 3.0, max: 3.5, name: "Крепость", range: "3.0-3.5", points: ["Сборка структуры и границ.", "Задача: не уйти в изоляцию.", "Фокус: ось и устойчивость."] },
+      { min: 3.5, max: 4.0, name: "Король / Королева в башне", range: "3.5-4.0", points: ["Достоинство и внутренняя ценность.", "Задача: не застрять в башне.", "Фокус: ценность без внешней подпитки."] },
+      { min: 4.0, max: 4.5, name: "Капитан", range: "4.0-4.5", points: ["Управление курсом.", "Задача: не уйти в жесткий контроль.", "Фокус: мягкое руководство собой."] },
+      { min: 4.5, max: 5.0, name: "Ручей", range: "4.5-5.0", points: ["Естественное течение энергии.", "Задача: не стыдиться проявленности.", "Фокус: живой контакт без потери себя."] },
+      { min: 5.0, max: 5.5, name: "Река", range: "5.0-5.5", points: ["Расширенная ступень после «Ручья».", "Усиливается устойчивый поток реализации.", "Фокус: держать курс без перегруза."] },
+      { min: 5.5, max: 6.0, name: "Озеро", range: "5.5-6.0", points: ["Увеличивается глубина и емкость состояния.", "Стабильность выше, реакции мягче.", "Фокус: баланс покоя и включенности."] },
+      { min: 6.0, max: 6.5, name: "Хозяин Гавани", range: "6.0-6.5", points: ["Появляется зрелое управление пространством.", "Повышается способность выдерживать нагрузку.", "Фокус: ответственность без избыточного контроля."] },
+      { min: 6.5, max: 7.0, name: "Парусник", range: "6.5-7.0", points: ["Движение на дальнюю дистанцию.", "Есть гибкость при сохранении направления.", "Фокус: устойчивый прогресс без рывков."] },
+      { min: 7.0, max: 7.5, name: "Владыка водопада", range: "7.0-7.5", points: ["Сильный ресурс и высокая интенсивность.", "Возрастает влияние на процессы вокруг.", "Фокус: экологично управлять мощностью."] },
+      { min: 7.5, max: 8.0, name: "Дельта реки", range: "7.5-8.0", points: ["Многоканальная реализация и адаптивность.", "Расширяется спектр устойчивых ролей.", "Фокус: сохранять целостность при масштабе."] },
+      { min: 8.0, max: 8.5, name: "Океан / Хранитель морей", range: "8.0-8.5", points: ["Высокая глубина и широта ресурса.", "Сильная удерживающая и интегрирующая функция.", "Фокус: баланс силы и мягкости."] },
+      { min: 8.5, max: 9.0, name: "Провидец / Исток Реки в горах", range: "8.5-9.0", points: ["Переход к старшим духовным ступеням.", "Усиливается качество присутствия и видения пути.", "Фокус: соединение реализации с Дао."] },
+      { min: 9.0, max: 9.5, name: "Пустота (Дао Сюй)", range: "9.0-9.5", points: ["Глубокая внутренняя тишина и ясность.", "Снижается привязка к внешнему контролю.", "Фокус: удержание пустоты как источника силы."] },
+      { min: 9.5, max: 10.0, name: "У-Вэй (Закон естественности)", range: "9.5-10.0", points: ["Действие без внутреннего усилия и борьбы.", "Высокая согласованность со стихиями и потоком.", "Фокус: естественное влияние через состояние."] },
+      { min: 10.0, max: 10.01, name: "У-цзи (Беспредельное)", range: "10.0", points: ["Предельная интеграция и недвойственное присутствие.", "Максимальная степень целостности в модели.", "Фокус: стабильное пребывание в Дао."] }
+    ];
+
+    const bachRemedies = [
+      "Agrimony","Aspen","Beech","Centaury","Cerato","Cherry Plum","Chestnut Bud","Chicory","Clematis","Crab Apple",
+      "Elm","Gentian","Gorse","Heather","Holly","Honeysuckle","Hornbeam","Impatiens","Larch","Mimulus",
+      "Mustard","Oak","Olive","Pine","Red Chestnut","Rock Rose","Rock Water","Scleranthus","Star of Bethlehem","Sweet Chestnut",
+      "Vervain","Vine","Walnut","Water Violet","White Chestnut","Wild Oat","Wild Rose","Willow","Rescue Remedy"
+    ];
+
+    const aliases = {
+      mimulus: "Mimulus", "мимулюс": "Mimulus",
+      aspen: "Aspen", "осина": "Aspen",
+      larch: "Larch", "лиственница": "Larch",
+      walnut: "Walnut", "грецкий орех": "Walnut",
+      pine: "Pine", "сосна": "Pine",
+      whitechestnut: "White Chestnut", "white chestnut": "White Chestnut", "белый каштан": "White Chestnut",
+      redchestnut: "Red Chestnut", "red chestnut": "Red Chestnut", "красный каштан": "Red Chestnut",
+      starofbethlehem: "Star of Bethlehem", "star of bethlehem": "Star of Bethlehem", "звезда вифлеема": "Star of Bethlehem",
+      rockrose: "Rock Rose", "rock rose": "Rock Rose",
+      rescue: "Rescue Remedy", "rescue remedy": "Rescue Remedy", "рескью": "Rescue Remedy"
+    };
+
+    const tagMap = {
+      "Agrimony": ["скрытые эмоции", "внутреннее напряжение"],
+      "Aspen": ["тревога", "неопределенность"],
+      "Beech": ["критичность", "жесткость"],
+      "Centaury": ["границы", "уступчивость"],
+      "Cerato": ["неуверенность", "поиск внешнего мнения"],
+      "Cherry Plum": ["контроль", "внутреннее давление"],
+      "Chestnut Bud": ["повторение ошибок", "обучение"],
+      "Chicory": ["контроль", "привязанность"],
+      "Clematis": ["расфокус", "уход от реальности"],
+      "Crab Apple": ["самокритика", "непринятие"],
+      "Elm": ["перегруз", "ответственность"],
+      "Gentian": ["сомнение", "снижение мотивации"],
+      "Gorse": ["безнадежность", "сдача"],
+      "Heather": ["дефицит контакта", "потребность во внимании"],
+      "Holly": ["раздражение", "напряженный контакт"],
+      "Honeysuckle": ["застревание в прошлом", "потеря фокуса настоящего"],
+      "Hornbeam": ["утомление старта", "прокрастинация"],
+      "Impatiens": ["спешка", "раздражительность"],
+      "Larch": ["неуверенность", "самооценка"],
+      "Mimulus": ["страх", "уязвимость"],
+      "Mustard": ["эмоциональный спад", "внутренняя тяжесть"],
+      "Oak": ["перегруз", "перенапряжение"],
+      "Olive": ["истощение", "ресурсный дефицит"],
+      "Pine": ["вина", "самообвинение"],
+      "Red Chestnut": ["тревога за близких", "гиперконтроль"],
+      "Rock Rose": ["острый страх", "стресс"],
+      "Rock Water": ["жесткость", "перфекционизм"],
+      "Scleranthus": ["колебания", "трудность выбора"],
+      "Star of Bethlehem": ["шок", "травматизация"],
+      "Sweet Chestnut": ["кризис предела", "внутренняя безвыходность"],
+      "Vervain": ["перевозбуждение", "напряжение"],
+      "Vine": ["доминирование", "контроль"],
+      "Walnut": ["адаптация", "границы"],
+      "Water Violet": ["дистанция", "эмоциональная закрытость"],
+      "White Chestnut": ["ментальный шум", "навязчивые мысли"],
+      "Wild Oat": ["поиск пути", "самоопределение"],
+      "Wild Rose": ["апатия", "пассивность"],
+      "Willow": ["обида", "внутреннее сопротивление"],
+      "Rescue Remedy": ["острый стресс", "стабилизация"]
+    };
+
+    const remedyGuidance = {
+      "Mimulus": "Помогает спокойнее обходиться с конкретными страхами и не сжиматься перед привычными жизненными задачами.",
+      "Aspen": "Подходит, когда есть беспричинная тревога или ощущение внутренней настороженности. Возвращает больше спокойствия и опоры.",
+      "White Chestnut": "Нужен, когда в голове слишком много повторяющихся мыслей. Помогает прояснить ум и легче отдыхать.",
+      "Larch": "Поддерживает уверенность в себе и помогает действовать без ожидания неудачи заранее.",
+      "Olive": "Полезен при сильной усталости и ощущении, что силы почти закончились. Поддерживает восстановление.",
+      "Oak": "Подходит тем, кто слишком долго держится на усилии и тащит все на себе. Помогает вовремя снижать нагрузку.",
+      "Pine": "Смягчает чувство вины и привычку обвинять себя даже там, где это не нужно.",
+      "Walnut": "Помогает легче проходить через перемены и меньше зависеть от внешнего влияния.",
+      "Rock Rose": "Поддерживает в состояниях острого страха, сильного напряжения или внутренней паники.",
+      "Rescue Remedy": "Нужен как быстрая поддержка в период перегруза, стресса или эмоционального сбоя.",
+      "Red Chestnut": "Подходит, когда слишком много тревоги за близких и трудно отпустить контроль.",
+      "Star of Bethlehem": "Мягко поддерживает после шока, болезненных событий и сильных эмоциональных потрясений.",
+      "Scleranthus": "Помогает, когда сложно выбрать, есть метания и внутренние качели.",
+      "Rock Water": "Смягчает излишнюю строгость к себе, внутреннюю жесткость и завышенные требования.",
+      "Cherry Plum": "Поддерживает, когда есть сильное внутреннее давление и страх потерять контроль над собой или ситуацией.",
+      "Agrimony": "Полезен, когда за внешним спокойствием прячется напряжение, а свои чувства трудно показывать.",
+      "Impatiens": "Помогает снизить внутреннюю спешку, раздражительность и вернуть более спокойный темп.",
+      "Hornbeam": "Подходит, когда трудно начать дела, хотя в целом силы есть. Помогает легче включаться.",
+      "Mustard": "Поддерживает в периоды необъяснимой внутренней тяжести, спада настроения и ощущения серого фона.",
+      "Wild Rose": "Помогает выйти из апатии, вернуть интерес к жизни и больше внутреннего отклика."
+    };
+
+    const themeToDomain = {
+      "страх": "anxiety",
+      "уязвимость": "anxiety",
+      "тревога": "anxiety",
+      "неопределенность": "anxiety",
+      "острый страх": "anxiety",
+      "стресс": "anxiety",
+      "острый стресс": "anxiety",
+      "внутреннее напряжение": "anxiety",
+      "контроль": "control",
+      "гиперконтроль": "control",
+      "внутреннее давление": "control",
+      "жесткость": "control",
+      "перфекционизм": "control",
+      "доминирование": "control",
+      "спешка": "control",
+      "истощение": "depletion",
+      "ресурсный дефицит": "depletion",
+      "перегруз": "depletion",
+      "перенапряжение": "depletion",
+      "утомление старта": "depletion",
+      "апатия": "depletion",
+      "пассивность": "depletion",
+      "самокритика": "self_worth",
+      "непринятие": "self_worth",
+      "вина": "self_worth",
+      "самообвинение": "self_worth",
+      "неуверенность": "self_worth",
+      "самооценка": "self_worth",
+      "безнадежность": "self_worth",
+      "кризис предела": "self_worth",
+      "границы": "boundaries",
+      "уступчивость": "boundaries",
+      "адаптация": "boundaries",
+      "дистанция": "boundaries",
+      "эмоциональная закрытость": "boundaries",
+      "травматизация": "trauma",
+      "шок": "trauma",
+      "ментальный шум": "cognitive",
+      "навязчивые мысли": "cognitive",
+      "расфокус": "cognitive",
+      "трудность выбора": "cognitive",
+      "повторение ошибок": "cognitive",
+      "обучение": "cognitive",
+      "поиск пути": "identity",
+      "самоопределение": "identity",
+      "застревание в прошлом": "identity"
+    };
+
+    const domainInsights = {
+      anxiety: {
+        label: "тревожно-стрессовая тема",
+        meaning: "система в режиме настороженности, с высокой чувствительностью к неопределенности и рискам",
+        focus: "сначала стабилизация: сон, ритм, телесное заземление, затем аккуратное расширение активности"
+      },
+      control: {
+        label: "тема гиперконтроля",
+        meaning: "управление используется как защита от уязвимости и потери предсказуемости",
+        focus: "смягчать контроль через дозирование нагрузки и практику гибких решений"
+      },
+      depletion: {
+        label: "тема истощения",
+        meaning: "есть дисбаланс между расходом и восстановлением ресурса",
+        focus: "снижать перегруз, выстроить восстановительные окна и защиту энергии"
+      },
+      self_worth: {
+        label: "тема самоценности",
+        meaning: "внутренняя оценка себя нестабильна, что усиливает сомнения и самокритику",
+        focus: "укреплять самоопору через реалистичные достижения и бережную внутреннюю речь"
+      },
+      boundaries: {
+        label: "тема границ и адаптации",
+        meaning: "текущая задача — сохранить себя в контакте, не уходя в жесткость или растворение",
+        focus: "выравнивать границы: право на темп, отказ и выбор формата контакта"
+      },
+      trauma: {
+        label: "тема постстрессовой чувствительности",
+        meaning: "есть следы шокового/травматического напряжения, снижающие устойчивость",
+        focus: "бережный темп, снижение сенсорной перегрузки и предсказуемая среда"
+      },
+      cognitive: {
+        label: "когнитивная тема",
+        meaning: "перегруз мышления/колебания мешают ясному выбору и действию",
+        focus: "упрощать решение задач: один приоритет, короткие циклы, внешняя структура"
+      },
+      identity: {
+        label: "тема самоопределения",
+        meaning: "актуален вопрос направления и личного курса",
+        focus: "уточнять вектор через небольшие проверяемые шаги и обратную связь"
+      }
+    };
+
+    const resourceInput = document.getElementById("resourceInput");
+    const resourceRange = document.getElementById("resourceRange");
+    const valueEcho = document.getElementById("valueEcho");
+    const goalHealthInput = document.getElementById("goalHealthInput");
+    const goalHealthRange = document.getElementById("goalHealthRange");
+    const goalHealthEcho = document.getElementById("goalHealthEcho");
+    const pastResourceInput = document.getElementById("pastResourceInput");
+    const pastResourceRange = document.getElementById("pastResourceRange");
+    const pastResourceEcho = document.getElementById("pastResourceEcho");
+    const pastGoalHealthInput = document.getElementById("pastGoalHealthInput");
+    const pastGoalHealthRange = document.getElementById("pastGoalHealthRange");
+    const pastGoalHealthEcho = document.getElementById("pastGoalHealthEcho");
+    const stageName = document.getElementById("stageName");
+    const stageRange = document.getElementById("stageRange");
+    const stageBody = document.getElementById("stageBody");
+
+    const bachInput = document.getElementById("bachInput");
+    const addByInputBtn = document.getElementById("addByInputBtn");
+    const bachChecklist = document.getElementById("bachChecklist");
+    const selectedList = document.getElementById("selectedList");
+    const selectedEmpty = document.getElementById("selectedEmpty");
+    const recommendList = document.getElementById("recommendList");
+    const overallText = document.getElementById("overallText");
+    const previewReportBtn = document.getElementById("previewReportBtn");
+    const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+    const printReportBtn = document.getElementById("printReportBtn");
+    const previewLive = document.getElementById("previewLive");
+    const previewLiveBody = document.getElementById("previewLiveBody");
+    const previewLiveStatus = document.getElementById("previewLiveStatus");
+    const clientName = document.getElementById("clientName");
+    const reportDate = document.getElementById("reportDate");
+    const bachNames = document.getElementById("bachNames");
+    const pastBachInput = document.getElementById("pastBachInput");
+    const addPastBtn = document.getElementById("addPastBtn");
+    const pastSelectedList = document.getElementById("pastSelectedList");
+    const pastSelectedEmpty = document.getElementById("pastSelectedEmpty");
+    const transitionReport = document.getElementById("transitionReport");
+    const resourceHistoryReport = document.getElementById("resourceHistoryReport");
+
+    const selected = new Set();
+    const noLongerNeeded = new Set();
+
+    function normalizeValue(v) {
+      if (Number.isNaN(v)) return null;
+      if (v < 0) return 0;
+      if (v > 10) return 10;
+      return Math.round(v * 10) / 10;
+    }
+
+    function detectStage(value) {
+      return stages.find((s) => value >= s.min && value < s.max) || null;
+    }
+
+    function renderStage(value) {
+      valueEcho.textContent = value === null ? "-" : value.toFixed(1);
+      if (value === null) {
+        stageName.textContent = "Нет корректного значения";
+        stageRange.textContent = "Введите число от 0 до 10";
+        stageBody.innerHTML = '<p class="empty">Не получилось определить ступень. Введите число от 0 до 10.</p>';
+        return;
+      }
+      const s = detectStage(value);
+      if (!s) {
+        stageName.textContent = "Ступень не определена";
+        stageRange.textContent = "Проверьте диапазон";
+        stageBody.innerHTML = '<p class="empty">Для этого значения пока нет подходящего описания.</p>';
+        return;
+      }
+      stageName.textContent = s.name;
+      stageRange.textContent = "Диапазон: " + s.range;
+      stageBody.innerHTML =
+        "<p class='muted'>Сейчас состояние больше всего похоже на этот этап развития ресурса.</p>" +
+        "<ul>" +
+        "<li><strong>Что это за этап:</strong> " + s.points[0] + "</li>" +
+        "<li><strong>Главная задача:</strong> " + s.points[1] + "</li>" +
+        "<li><strong>На что сейчас опираться:</strong> " + s.points[2] + "</li>" +
+        "</ul>";
+    }
+
+    function syncAuxResource(raw) {
+      const value = normalizeValue(Number.parseFloat(raw));
+      if (value === null) {
+        goalHealthEcho.textContent = "-";
+        renderResourceHistoryAnalysis();
+        return;
+      }
+      goalHealthInput.value = value.toFixed(1);
+      goalHealthRange.value = value.toFixed(1);
+      goalHealthEcho.textContent = value.toFixed(1);
+      renderResourceHistoryAnalysis();
+    }
+
+    function syncPastResource(raw) {
+      const value = normalizeValue(Number.parseFloat(raw));
+      if (value === null) {
+        pastResourceEcho.textContent = "-";
+        renderResourceHistoryAnalysis();
+        return;
+      }
+      pastResourceInput.value = value.toFixed(1);
+      pastResourceRange.value = value.toFixed(1);
+      pastResourceEcho.textContent = value.toFixed(1);
+      renderResourceHistoryAnalysis();
+    }
+
+    function syncPastGoalHealth(raw) {
+      const value = normalizeValue(Number.parseFloat(raw));
+      if (value === null) {
+        pastGoalHealthEcho.textContent = "-";
+        renderResourceHistoryAnalysis();
+        return;
+      }
+      pastGoalHealthInput.value = value.toFixed(1);
+      pastGoalHealthRange.value = value.toFixed(1);
+      pastGoalHealthEcho.textContent = value.toFixed(1);
+      renderResourceHistoryAnalysis();
+    }
+
+    function getDeltaLabel(delta) {
+      if (delta >= 1.0) return "сильный рост";
+      if (delta >= 0.3) return "рост";
+      if (delta > -0.3) return "без заметного сдвига";
+      if (delta > -1.0) return "снижение";
+      return "сильное снижение";
+    }
+
+    function getDirectionSummary(resourceDelta, goalDelta) {
+      const resourceUp = resourceDelta >= 0.3;
+      const goalUp = goalDelta >= 0.3;
+      const resourceDown = resourceDelta <= -0.3;
+      const goalDown = goalDelta <= -0.3;
+
+      if (resourceUp && goalUp) {
+        return "Рост по обеим шкалам: опора и реализация усилились вместе.";
+      }
+      if (resourceDown && goalDown) {
+        return "Снижение по обеим шкалам: запас сил и результативность просели вместе.";
+      }
+      if (resourceUp && goalDown) {
+        return "«Я» выросло, а здоровье/цель снизилось: внутренний запас есть, но он пока не переходит в результат.";
+      }
+      if (resourceDown && goalUp) {
+        return "Здоровье/цель выросло при снижении «Я»: результат держится дороже, чем должен.";
+      }
+      return "Явного общего вектора нет: изменения разнонаправленные или слишком малы.";
+    }
+
+    function renderResourceHistoryAnalysis() {
+      const currentResource = normalizeValue(Number.parseFloat(resourceInput.value));
+      const currentGoal = normalizeValue(Number.parseFloat(goalHealthInput.value));
+      const pastResource = normalizeValue(Number.parseFloat(pastResourceInput.value));
+      const pastGoal = normalizeValue(Number.parseFloat(pastGoalHealthInput.value));
+
+      resourceHistoryReport.innerHTML = "";
+
+      if (currentResource === null || currentGoal === null || pastResource === null || pastGoal === null) {
+        resourceHistoryReport.innerHTML = '<p class="muted">Введите четыре числовых значения от 0 до 10, чтобы увидеть вывод по динамике ресурсов.</p>';
+        return;
+      }
+
+      const currentStage = detectStage(currentResource);
+      const pastStage = detectStage(pastResource);
+      const resourceDelta = Math.round((currentResource - pastResource) * 10) / 10;
+      const goalDelta = Math.round((currentGoal - pastGoal) * 10) / 10;
+      let recommendationText = "";
+
+      if (resourceDelta >= 0.3 && goalDelta >= 0.3) {
+        recommendationText = "Сейчас можно опираться на рост ресурса и реализации: не ускоряться резко, а закреплять новую устойчивость через ровный ритм и посильные действия.";
+      } else if (resourceDelta <= -0.3 && goalDelta <= -0.3) {
+        recommendationText = "Сейчас лучше не усиливать нагрузку: сначала вернуть базовую опору, снизить перегруз и дать себе более щадящий режим восстановления.";
+      } else if (resourceDelta >= 0.3 && goalDelta <= -0.3) {
+        recommendationText = "Внутренний ресурс вырос, но в результат он пока не собирается: стоит меньше распыляться и переводить силы в один конкретный приоритет.";
+      } else if (resourceDelta <= -0.3 && goalDelta >= 0.3) {
+        recommendationText = "Результат держится дороже, чем должен: важно не тянуть его за счет перенапряжения, а вернуть опору и темп, который не истощает.";
+      } else {
+        recommendationText = "Резкого сдвига нет: сейчас полезнее не форсировать изменения, а спокойно закреплять текущее состояние и наблюдать, где появляется самый живой отклик.";
+      }
+
+      if (pastStage && currentStage && pastStage.name !== currentStage.name) {
+        recommendationText += " Переход из «" + pastStage.name + "» в «" + currentStage.name + "» показывает смену этапа, поэтому и опору лучше строить уже по задачам новой ступени.";
+      }
+
+      if (currentStage) {
+        const focusText = currentStage.points[2].replace(/^Фокус:\s*/i, "").replace(/\.$/, "");
+        recommendationText += " Сейчас опора — " + focusText + ".";
+      }
+
+      resourceHistoryReport.textContent = recommendationText;
+    }
+
+    function canonicalize(name) {
+      const trimmed = name.trim().replace(/\s+/g, " ");
+      if (!trimmed) return "";
+      const lower = trimmed.toLowerCase();
+      const compact = lower.replace(/\s+/g, "");
+
+      if (aliases[lower]) return aliases[lower];
+      if (aliases[compact]) return aliases[compact];
+
+      const exact = bachRemedies.find((r) => r.toLowerCase() === lower);
+      if (exact) return exact;
+
+      const starts = bachRemedies.find((r) => r.toLowerCase().startsWith(lower));
+      if (starts) return starts;
+
+      return trimmed;
+    }
+
+    function addManyFromInput(raw) {
+      const parts = raw.split(/[;,\n]+/).map((x) => x.trim()).filter(Boolean);
+      parts.forEach((p) => {
+        const c = canonicalize(p);
+        if (c) selected.add(c);
+      });
+      renderSelected();
+    }
+
+    function removeItem(name) {
+      selected.delete(name);
+      renderSelected();
+    }
+
+    function renderSelected() {
+      const arr = Array.from(selected).sort((a, b) => a.localeCompare(b));
+      selectedList.innerHTML = "";
+      selectedEmpty.style.display = arr.length ? "none" : "block";
+
+      arr.forEach((name) => {
+        const el = document.createElement("span");
+        el.className = "pill";
+        el.innerHTML = `<span>${name}</span><button type="button" aria-label="Удалить ${name}">×</button>`;
+        el.querySelector("button").addEventListener("click", () => removeItem(name));
+        selectedList.appendChild(el);
+      });
+
+      bachChecklist.querySelectorAll("input[type='checkbox']").forEach((cb) => {
+        cb.checked = selected.has(cb.value);
+      });
+
+      renderRecommendations();
+    }
+
+    function renderRecommendations() {
+      const names = Array.from(selected);
+
+      if (!names.length) {
+        recommendList.innerHTML = '<p class="muted">Выберите препараты слева, и здесь появится понятное пояснение по каждому из них.</p>';
+        overallText.textContent = "После выбора препаратов здесь появится общий смысл сочетания, его общий паттерн и сверка с текущей ступенью DAO.";
+        renderTransitionAnalysis();
+        return;
+      }
+
+      const sortedNames = names.sort((a, b) => a.localeCompare(b));
+      recommendList.innerHTML = "";
+      sortedNames.forEach((name) => {
+        const card = document.createElement("div");
+        card.className = "rec-item";
+        const text = remedyGuidance[name] || "Поддерживает эмоциональное равновесие и помогает мягче пройти текущий период.";
+        card.innerHTML = "<strong>" + name + "</strong><span><strong>Зачем сейчас:</strong> " + text + "</span>";
+        recommendList.appendChild(card);
+      });
+
+      const tagCounts = {};
+      names.forEach((n) => {
+        (tagMap[n] || []).forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
+      });
+
+      const domainScores = {};
+      Object.entries(tagCounts).forEach(([tag, weight]) => {
+        const domain = themeToDomain[tag];
+        if (!domain) return;
+        domainScores[domain] = (domainScores[domain] || 0) + weight;
+      });
+
+      const dominantDomains = Object.entries(domainScores)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0])
+        .slice(0, 3);
+
+      const currentValue = normalizeValue(Number.parseFloat(resourceInput.value));
+      const currentStage = currentValue === null ? null : detectStage(currentValue);
+
+      const currentTags = Object.entries(tagCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]);
+
+      overallText.innerHTML = buildOverallBachAnalysis(dominantDomains, currentStage, currentTags);
+      renderTransitionAnalysis();
+    }
+
+    function addPastManyFromInput(raw) {
+      const parts = raw.split(/[;,\n]+/).map((x) => x.trim()).filter(Boolean);
+      parts.forEach((p) => {
+        const c = canonicalize(p);
+        if (c) noLongerNeeded.add(c);
+      });
+      renderPastSelected();
+    }
+
+    function removePastItem(name) {
+      noLongerNeeded.delete(name);
+      renderPastSelected();
+    }
+
+    function collectDomainScores(names) {
+      const tagCounts = {};
+      names.forEach((n) => {
+        (tagMap[n] || []).forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
+      });
+
+      const domainScores = {};
+      Object.entries(tagCounts).forEach(([tag, weight]) => {
+        const domain = themeToDomain[tag];
+        if (!domain) return;
+        domainScores[domain] = (domainScores[domain] || 0) + weight;
+      });
+      return domainScores;
+    }
+
+    function collectTagScores(names) {
+      const tagCounts = {};
+      names.forEach((n) => {
+        (tagMap[n] || []).forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
+      });
+      return tagCounts;
+    }
+
+    function renderPastSelected() {
+      const arr = Array.from(noLongerNeeded).sort((a, b) => a.localeCompare(b));
+      pastSelectedList.innerHTML = "";
+      pastSelectedEmpty.style.display = arr.length ? "none" : "block";
+
+      arr.forEach((name) => {
+        const el = document.createElement("span");
+        el.className = "pill";
+        el.innerHTML = `<span>${name}</span><button type="button" aria-label="Удалить ${name}">×</button>`;
+        el.querySelector("button").addEventListener("click", () => removePastItem(name));
+        pastSelectedList.appendChild(el);
+      });
+
+      renderTransitionAnalysis();
+    }
+
+    function buildResolvedText(domainKey) {
+      const map = {
+        anxiety: "стало меньше внутренней тревоги и напряжения",
+        control: "снизилась потребность все жестко контролировать",
+        depletion: "ресурс стал более ровным, меньше ощущения истощения",
+        self_worth: "прибавилось опоры на себя, меньше самокритики",
+        boundaries: "легче удерживать личные границы в контакте с людьми",
+        trauma: "снизилась чувствительность к стрессовым триггерам",
+        cognitive: "мысли стали спокойнее, появилась большая ясность",
+        identity: "появилось больше понимания своего направления"
+      };
+      return map[domainKey] || "";
+    }
+
+    function buildKeyChangeText(domainKey) {
+      const map = {
+        anxiety: "человек стал спокойнее реагировать на неопределенность и меньше жить в режиме внутренней тревоги",
+        control: "появилось больше доверия к процессу и меньше потребности держать все под жестким контролем",
+        depletion: "восстановился базовый запас сил, стало легче выдерживать обычную дневную нагрузку",
+        self_worth: "укрепилась внутренняя опора: меньше самокритики, больше принятия себя",
+        boundaries: "стали устойчивее личные границы, легче сохранять себя в общении",
+        trauma: "снизилась острота постстрессовых реакций, нервная система стала стабильнее",
+        cognitive: "ум стал более спокойным и собранным, меньше мыслительной перегрузки",
+        identity: "прояснилось направление, выросло чувство собственного курса"
+      };
+      return map[domainKey] || "";
+    }
+
+    function buildSameThemeText(domainKey) {
+      const map = {
+        anxiety: "тема тревоги еще остается актуальной, но обычно уже переживается мягче и осознаннее, чем раньше",
+        control: "тема контроля еще сохраняется, но человек уже меньше держится за жесткие способы справляться",
+        depletion: "тема усталости еще требует внимания, хотя общее состояние уже стало ровнее",
+        self_worth: "тема самоценности еще укрепляется, но внутренняя опора уже формируется",
+        boundaries: "тема личных границ еще донастраивается, хотя удерживать себя стало легче",
+        trauma: "последствия сильного напряжения еще требуют бережности, но нервная система уже реагирует устойчивее",
+        cognitive: "тема мыслительной перегрузки еще не до конца ушла, но ясности уже стало больше",
+        identity: "тема собственного пути еще разворачивается, хотя направление уже начинает проясняться"
+      };
+      return map[domainKey] || "";
+    }
+
+    function buildTagText(tag) {
+      const map = {
+        "дефицит контакта": "болезненная нехватка отклика и живого контакта",
+        "потребность во внимании": "потребность постоянно добирать внимание извне",
+        "тревога": "внутренняя тревога",
+        "неопределенность": "трудность спокойно выдерживать неопределенность",
+        "неуверенность": "сомнения в себе",
+        "поиск внешнего мнения": "потребность опираться на чужое мнение сильнее, чем на свое",
+        "страх": "конкретные страхи",
+        "уязвимость": "ощущение уязвимости",
+        "самокритика": "избыточная самокритика",
+        "вина": "чувство вины",
+        "границы": "трудность удерживать личные границы",
+        "уступчивость": "излишняя уступчивость",
+        "контроль": "потребность все контролировать",
+        "внутреннее давление": "сильное внутреннее давление",
+        "ментальный шум": "мыслительная перегрузка",
+        "навязчивые мысли": "навязчивые повторяющиеся мысли",
+        "колебания": "внутренние метания",
+        "трудность выбора": "трудность с выбором",
+        "истощение": "сильная усталость",
+        "ресурсный дефицит": "нехватка внутренних сил",
+        "перегруз": "перегрузка",
+        "самооценка": "неустойчивая самооценка",
+        "поиск пути": "неясность собственного направления",
+        "самоопределение": "поиск своего курса"
+      };
+      return map[tag] || tag;
+    }
+
+    function formatHumanList(items) {
+      if (!items.length) return "";
+      if (items.length === 1) return items[0];
+      if (items.length === 2) return items[0] + " и " + items[1];
+      return items.slice(0, -1).join(", ") + " и " + items[items.length - 1];
+    }
+
+    function buildDaoStageLens(stage, dominantDomains) {
+      if (!stage) return "";
+
+      const primary = dominantDomains[0] || null;
+      const stageName = stage.name;
+      const taskText = stage.points[1].replace(/^Задача:\s*/i, "").replace(/\.$/, "");
+      const focusText = stage.points[2].replace(/^Фокус:\s*/i, "").replace(/\.$/, "");
+
+      if (primary === "self_worth") {
+        return "На стадии «" + stageName + "» это особенно уместно, если набор уменьшает самокритику и возвращает внутреннюю опору.";
+      }
+      if (primary === "control") {
+        return "На стадии «" + stageName + "» это звучит точно, если набор помогает держать курс мягче и не зажиматься в контроле.";
+      }
+      if (primary === "anxiety") {
+        return "На стадии «" + stageName + "» это особенно важно, потому что лишняя тревога мешает проживать задачу ступени спокойно.";
+      }
+      if (primary === "depletion") {
+        return "На стадии «" + stageName + "» это уместно, если набор сначала возвращает ресурс, а уже потом поддерживает движение.";
+      }
+      return "На стадии «" + stageName + "» важно держать вектор \"" + taskText.toLowerCase() + "\" и опираться на " + focusText + ".";
+    }
+
+    function buildOverallBachAnalysis(dominantDomains, currentStage, currentTags) {
+      const lead = dominantDomains[0] ? domainInsights[dominantDomains[0]] : null;
+      const second = dominantDomains[1] ? domainInsights[dominantDomains[1]] : null;
+      const parts = [];
+
+      if (currentStage) {
+        parts.push("По шкале DAO это стадия «" + currentStage.name + "».");
+      }
+
+      if (lead) {
+        parts.push("Сейчас на первом плане " + lead.label + ". Проще говоря, " + lead.meaning + ".");
+        parts.push("Сейчас важнее всего " + lead.focus + ".");
+      } else {
+        parts.push("Сейчас набор скорее мягко выравнивает общее состояние и помогает сделать фон спокойнее.");
+      }
+
+      if (second) {
+        parts.push("Вторым слоем идет " + second.label + ": " + second.meaning + ".");
+      }
+
+      if (dominantDomains.includes("anxiety") && dominantDomains.includes("control")) {
+        parts.push("Похоже, тревога и контроль сейчас подпитывают друг друга: чем больше внутреннего напряжения, тем сильнее хочется все держать под контролем.");
+      }
+      if (dominantDomains.includes("depletion") && (dominantDomains.includes("anxiety") || dominantDomains.includes("control"))) {
+        parts.push("Поэтому сначала лучше вернуть силы и устойчивость, а уже потом повышать нагрузку. Иначе состояние может снова быстро просесть.");
+      }
+      if (dominantDomains.includes("self_worth")) {
+        parts.push("Отдельно стоит поддержать самоценность: меньше внутренней критики и больше небольших действий, которые возвращают опору на себя.");
+      } else if (currentTags.length) {
+        parts.push("Сильнее всего здесь звучат " + formatHumanList(currentTags.slice(0, 3).map(buildTagText)) + ".");
+      }
+
+      parts.push("Текущий набор препаратов логично поддерживает именно эти задачи и не перегружает фокус.");
+
+      return "<p>" + escapeHtml(parts.filter(Boolean).join(" ")) + "</p>";
+    }
+
+    function renderTransitionAnalysis() {
+      const past = Array.from(noLongerNeeded).sort((a, b) => a.localeCompare(b));
+      const current = Array.from(selected).sort((a, b) => a.localeCompare(b));
+
+      transitionReport.innerHTML = "";
+
+      if (!past.length) {
+        transitionReport.innerHTML = '<p class="muted">Добавьте слева препараты, которые раньше были нужны, и здесь появится понятная динамика: что уже ушло, а что еще остается актуальным.</p>';
+        return;
+      }
+
+      const stillNeeded = current.filter((name) => !noLongerNeeded.has(name));
+      const overlap = current.filter((name) => noLongerNeeded.has(name));
+      const pastTagScores = collectTagScores(past);
+      const activeTagScores = collectTagScores(stillNeeded);
+      const pastScores = collectDomainScores(past);
+      const activeScores = collectDomainScores(stillNeeded);
+      const allDomains = Object.keys({ ...pastScores, ...activeScores });
+      const allTags = Object.keys({ ...pastTagScores, ...activeTagScores });
+
+      const reducedTags = allTags
+        .map((tag) => [tag, (pastTagScores[tag] || 0) - (activeTagScores[tag] || 0)])
+        .filter(([, delta]) => delta > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]);
+
+      const currentTags = allTags
+        .map((tag) => [tag, (activeTagScores[tag] || 0) - (pastTagScores[tag] || 0)])
+        .filter(([, delta]) => delta > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]);
+
+      const deltaResolved = allDomains
+        .map((key) => [key, (pastScores[key] || 0) - (activeScores[key] || 0)])
+        .filter(([, delta]) => delta > 0)
+        .sort((a, b) => b[1] - a[1]);
+
+      const unchangedDomains = allDomains
+        .map((key) => [key, Math.min(pastScores[key] || 0, activeScores[key] || 0)])
+        .filter(([, weight]) => weight > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]);
+
+      const resolvedDomains = deltaResolved.slice(0, 2).map((x) => x[0]);
+      const keyChangedDomain = deltaResolved.length ? deltaResolved[0][0] : null;
+      const stillActiveDomain = unchangedDomains.length ? unchangedDomains[0] : null;
+      const currentValue = normalizeValue(Number.parseFloat(resourceInput.value));
+      const currentStage = currentValue === null ? null : detectStage(currentValue);
+
+      let changedText = "заметного сдвига пока нет: основная тема состояния в целом сохраняется";
+      if (!stillNeeded.length && !overlap.length) {
+        changedText = "часть прежней нагрузки уже ушла: поддержка стала точнее, а состояние выглядит более собранным";
+      } else if (keyChangedDomain && stillActiveDomain && keyChangedDomain !== stillActiveDomain) {
+        const reducedLabel = domainInsights[keyChangedDomain]?.label || "прежняя тема";
+        const activeLabel = domainInsights[stillActiveDomain]?.label || "текущая тема";
+        changedText = "ослабла " + reducedLabel + ", но в центре еще остается " + activeLabel + ": старое напряжение уже снижается, а текущая задача пока не завершена";
+      } else if (keyChangedDomain) {
+        const reducedLabel = domainInsights[keyChangedDomain]?.label || "прежняя тема";
+        changedText = "ослабла " + reducedLabel + ": часть прежней нагрузки больше не требует такой же поддержки";
+      } else if (stillActiveDomain) {
+        const activeLabel = domainInsights[stillActiveDomain]?.label || "основная тема состояния";
+        changedText = "сохраняется " + activeLabel + ": динамика есть, но ядро текущей темы все еще активно";
+      }
+      if (currentTags.length) {
+        changedText += ". Сейчас сильнее всего проявлены " + formatHumanList(currentTags.slice(0, 2).map(buildTagText)) + ".";
+      } else if (!stillNeeded.length && !overlap.length) {
+        changedText += ". Это похоже на переход к более спокойному этапу наблюдения.";
+      } else {
+        changedText += ".";
+      }
+      if (overlap.length) {
+        changedText += " Есть пересечение между прошлым и текущим списком: спорные позиции лучше отдельно уточнить.";
+      }
+
+      let recommendationText = "сохранить поддержку узкой и не расширять список без новой динамики";
+      if (!stillNeeded.length && !overlap.length) {
+        recommendationText = "сделать короткую паузу 7-10 дней и посмотреть, как состояние держится без дополнительного усиления";
+      } else if (stillActiveDomain) {
+        const activeLabel = domainInsights[stillActiveDomain]?.label || "текущей теме";
+        recommendationText = "держать фокус на " + activeLabel + " и не распылять поддержку на вторичные темы";
+      } else if (currentTags.length) {
+        recommendationText = "держать фокус на " + formatHumanList(currentTags.slice(0, 2).map(buildTagText)) + " и не перегружать схему";
+      }
+      if (currentStage) {
+        const taskText = currentStage.points[1].replace(/^Задача:\s*/i, "").replace(/\.$/, "");
+        const focusText = currentStage.points[2].replace(/^Фокус:\s*/i, "").replace(/\.$/, "");
+        recommendationText += ". По ступени «" + currentStage.name + "» сейчас важно " + taskText.toLowerCase() + "; опора — " + focusText;
+      }
+
+      const changedTitle = document.createElement("p");
+      changedTitle.innerHTML = "<strong>Что изменилось:</strong> " + changedText + ".";
+      transitionReport.appendChild(changedTitle);
+
+      const recommendationTitle = document.createElement("p");
+      recommendationTitle.innerHTML = "<strong>Какие рекомендации:</strong> " + recommendationText + ".";
+      transitionReport.appendChild(recommendationTitle);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatDateForReport(raw) {
+      if (!raw) return new Date().toLocaleDateString("ru-RU");
+      const d = new Date(raw + "T00:00:00");
+      if (Number.isNaN(d.getTime())) return raw;
+      return d.toLocaleDateString("ru-RU");
+    }
+
+    function listToTableValue(items) {
+      if (!items.length) return "<span class='empty-row'>Нет данных.</span>";
+      return items.map((item) => "<span class='tag'>" + escapeHtml(item) + "</span>").join("");
+    }
+
+    function formatPdfValue(value) {
+      return value === null ? "-" : value.toFixed(1);
+    }
+
+    function buildScaleBar(value, tone) {
+      if (value === null) {
+        return "<div class='pdf-scale'><div class='pdf-scale-track'></div></div><div class='small'>Нет данных</div>";
+      }
+
+      const width = Math.max(0, Math.min(100, value * 10));
+      return "<div class='pdf-scale'>" +
+        "<div class='pdf-scale-track'>" +
+        "<div class='pdf-scale-fill' style='width:" + width + "%;background:" + tone + ";'></div>" +
+        "<div class='pdf-scale-marker' style='left:calc(" + width + "% - 6px);border-color:" + tone + ";'></div>" +
+        "</div>" +
+        "<div class='pdf-scale-labels'><span>0</span><span>5</span><span>10</span></div>" +
+        "</div>" +
+        "<div class='small'>Значение: <strong>" + escapeHtml(value.toFixed(1)) + "</strong> из 10</div>";
+    }
+
+    function buildScaleCompareBlock(title, currentValue, pastValue, currentTone, pastTone) {
+      return "<div class='pdf-scale-card'>" +
+        "<div class='pdf-scale-head'><strong>" + escapeHtml(title) + "</strong>" +
+        "<span>Сейчас: " + escapeHtml(formatPdfValue(currentValue)) + " | Раньше: " + escapeHtml(formatPdfValue(pastValue)) + "</span></div>" +
+        "<div class='pdf-scale-row'><div><div class='small'>Текущее значение</div>" + buildScaleBar(currentValue, currentTone) + "</div></div>" +
+        "<div class='pdf-scale-row'><div><div class='small'>Предыдущее значение</div>" + buildScaleBar(pastValue, pastTone) + "</div></div>" +
+        "</div>";
+    }
+
+    function buildPdfHtml() {
+      const value = normalizeValue(Number.parseFloat(resourceInput.value));
+      const goalHealthValue = normalizeValue(Number.parseFloat(goalHealthInput.value));
+      const pastResourceValue = normalizeValue(Number.parseFloat(pastResourceInput.value));
+      const pastGoalHealthValue = normalizeValue(Number.parseFloat(pastGoalHealthInput.value));
+      const stage = value === null ? null : detectStage(value);
+      const selectedNames = Array.from(selected).sort((a, b) => a.localeCompare(b));
+      const pastNames = Array.from(noLongerNeeded).sort((a, b) => a.localeCompare(b));
+      const rows = selectedNames.map((name) => {
+        const text = remedyGuidance[name] || "Поддерживает эмоциональный баланс и мягкое выравнивание текущего состояния.";
+        return "<tr><td>" + escapeHtml(name) + "</td><td>" + escapeHtml(text) + "</td></tr>";
+      }).join("");
+
+      const client = clientName.value.trim() || "Клиент";
+      const dateText = formatDateForReport(reportDate.value);
+      const stageNameText = stage ? stage.name : "Не определена";
+      const stageRangeText = stage ? stage.range : "-";
+      const stageFeatures = stage ? stage.points.join(" ") : "Недостаточно данных для определения стадии.";
+      const overall = overallText.textContent || "-";
+      const transitionHtml = transitionReport.innerHTML
+        ? transitionReport.innerHTML
+        : "<p class='empty-row'>Динамика пока не сформирована.</p>";
+      const resourceHistoryHtml = resourceHistoryReport.innerHTML
+        ? resourceHistoryReport.innerHTML
+        : "<p class='empty-row'>Динамика ресурсов пока не сформирована.</p>";
+
+      return "<!doctype html><html lang='ru'><head><meta charset='utf-8'><title>Отчет У-Син</title>" +
+        "<style>" +
+        "body{font-family:Arial,sans-serif;color:#111;margin:24px;line-height:1.4;}" +
+        "h1{margin:0 0 6px;font-size:22px;}h2{margin:18px 0 8px;font-size:16px;}" +
+        ".meta{margin:0 0 14px;color:#374151;}" +
+        "table{width:100%;border-collapse:collapse;margin:8px 0 14px;}" +
+        "th,td{border:1px solid #d1d5db;padding:8px 10px;vertical-align:top;}" +
+        "th{background:#f3f4f6;text-align:left;}" +
+        "ul{margin:8px 0 0;padding-left:20px;}li{margin:0 0 6px;}" +
+        "p{margin:0 0 8px;}" +
+        ".tag{display:inline-block;margin:0 6px 6px 0;padding:4px 10px;border:1px solid #cbd5e1;border-radius:999px;background:#f8fafc;font-size:12px;}" +
+        ".analysis-cell p:last-child,.analysis-cell ul:last-child{margin-bottom:0;}" +
+        ".empty-row{color:#4b5563;}" +
+        ".small{font-size:12px;color:#4b5563;}" +
+        ".pdf-scale-card{border:1px solid #d1d5db;border-radius:12px;padding:12px 14px;background:#fbfdff;margin:10px 0 14px;}" +
+        ".pdf-scale-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin:0 0 10px;}" +
+        ".pdf-scale-head span{font-size:12px;color:#4b5563;}" +
+        ".pdf-scale-row{margin:0 0 10px;}" +
+        ".pdf-scale-row:last-child{margin-bottom:0;}" +
+        ".pdf-scale{margin:4px 0 4px;}" +
+        ".pdf-scale-track{position:relative;height:12px;border-radius:999px;background:#e5e7eb;overflow:visible;}" +
+        ".pdf-scale-fill{height:100%;border-radius:999px;}" +
+        ".pdf-scale-marker{position:absolute;top:50%;width:12px;height:12px;border-radius:999px;background:#fff;border:2px solid #0f766e;transform:translateY(-50%);}" +
+        ".pdf-scale-labels{display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-top:4px;}" +
+        "@media print { body{margin:12mm;} }" +
+        "</style></head><body>" +
+        "<h1>Клиентский отчет У-Син / Бах</h1>" +
+        "<p class='meta'><strong>Клиент:</strong> " + escapeHtml(client) + " | <strong>Дата:</strong> " + escapeHtml(dateText) + "</p>" +
+
+        "<h2>1. Стадия DAO (по ресурсу «Я»)</h2>" +
+        buildScaleCompareBlock("Шкала ресурса «Я»", value, pastResourceValue, "#0f766e", "#94a3b8") +
+        buildScaleCompareBlock("Шкала ресурса цели / здоровья", goalHealthValue, pastGoalHealthValue, "#2563eb", "#94a3b8") +
+        "<table><tr><th style='width:30%'>Параметр</th><th>Значение</th></tr>" +
+        "<tr><td>Ресурс «Я»</td><td>" + escapeHtml(formatPdfValue(value)) + "</td></tr>" +
+        "<tr><td>Ресурс цели / здоровья</td><td>" + escapeHtml(formatPdfValue(goalHealthValue)) + "</td></tr>" +
+        "<tr><td>Стадия</td><td>" + escapeHtml(stageNameText) + "</td></tr>" +
+        "<tr><td>Диапазон</td><td>" + escapeHtml(stageRangeText) + "</td></tr>" +
+        "<tr><td>Краткие особенности</td><td>" + escapeHtml(stageFeatures) + "</td></tr></table>" +
+
+        "<h2>2. Препараты Баха и рекомендации</h2>" +
+        "<table><tr><th style='width:28%'>Препарат</th><th>Что дает</th></tr>" +
+        (rows || "<tr><td colspan='2'>Препараты не выбраны.</td></tr>") +
+        "</table>" +
+
+        "<h2>3. Общий итог</h2>" +
+        "<table><tr><th>Итоговая рекомендация по сочетанию препаратов</th></tr>" +
+        "<tr><td>" + escapeHtml(overall) + "</td></tr></table>" +
+
+        "<h2>4. Второй модуль: динамика</h2>" +
+        "<table><tr><th style='width:30%'>Параметр</th><th>Значение</th></tr>" +
+        "<tr><td>Ранее нужные препараты</td><td>" + listToTableValue(pastNames) + "</td></tr>" +
+        "<tr><td>Текущие выбранные препараты</td><td>" + listToTableValue(selectedNames) + "</td></tr>" +
+        "<tr><td>Анализ изменений</td><td class='analysis-cell'>" + transitionHtml + "</td></tr></table>" +
+
+        "<h2>5. Четвертый модуль: динамика ресурсов</h2>" +
+        buildScaleCompareBlock("Динамика ресурса «Я»", value, pastResourceValue, "#0f766e", "#94a3b8") +
+        buildScaleCompareBlock("Динамика ресурса цели / здоровья", goalHealthValue, pastGoalHealthValue, "#2563eb", "#94a3b8") +
+        "<table><tr><th style='width:30%'>Параметр</th><th>Значение</th></tr>" +
+        "<tr><td>Предыдущий ресурс «Я»</td><td>" + escapeHtml(formatPdfValue(pastResourceValue)) + "</td></tr>" +
+        "<tr><td>Текущий ресурс «Я»</td><td>" + escapeHtml(formatPdfValue(value)) + "</td></tr>" +
+        "<tr><td>Предыдущий ресурс цели / здоровья</td><td>" + escapeHtml(formatPdfValue(pastGoalHealthValue)) + "</td></tr>" +
+        "<tr><td>Текущий ресурс цели / здоровья</td><td>" + escapeHtml(formatPdfValue(goalHealthValue)) + "</td></tr>" +
+        "<tr><td>Вывод по динамике</td><td class='analysis-cell'>" + resourceHistoryHtml + "</td></tr></table>" +
+
+        "<p class='small'>Отчет сформирован автоматически из текущей формы.</p>" +
+        "</body></html>";
+    }
+
+    function buildPdfFilename() {
+      const safeDate = (reportDate.value || new Date().toISOString().slice(0, 10)).replace(/[^0-9-]+/g, "-");
+      const rawName = (clientName.value || "client").trim().toLowerCase();
+      const safeName = rawName
+        .replace(/[^a-zа-яё0-9]+/gi, "-")
+        .replace(/^-+|-+$/g, "") || "client";
+      return "mini-using-report-" + safeName + "-" + safeDate + ".pdf";
+    }
+
+    function renderInlinePreview() {
+      const parsed = new DOMParser().parseFromString(buildPdfHtml(), "text/html");
+      const reportStyles = Array.from(parsed.querySelectorAll("style")).map((node) => "<style>" + node.textContent + "</style>").join("");
+      const reportBody = parsed.body.innerHTML;
+      previewLiveBody.innerHTML = reportStyles + reportBody;
+      previewLive.classList.add("is-visible");
+      previewLiveStatus.textContent = "Предпросмотр обновлен. Для сохранения нажмите «Сохранить как PDF», затем выберите «Сохранить как PDF» в системном диалоге.";
+      return buildPdfFilename();
+    }
+
+    function openSystemPrint(mode) {
+      const filename = renderInlinePreview();
+      previewLiveStatus.textContent = mode === "pdf"
+        ? "Открываем системный диалог печати. Выберите «Сохранить как PDF». Имя файла: " + filename
+        : "Открываем системный диалог печати.";
+      document.body.classList.add("print-preview-mode");
+      window.print();
+    }
+
+    function initBach() {
+      bachRemedies.forEach((name) => {
+        const op = document.createElement("option");
+        op.value = name;
+        bachNames.appendChild(op);
+      });
+
+      bachRemedies.forEach((name) => {
+        const label = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = name;
+        cb.addEventListener("change", (e) => {
+          if (e.target.checked) selected.add(name);
+          else selected.delete(name);
+          renderSelected();
+        });
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(name));
+        bachChecklist.appendChild(label);
+      });
+
+      addByInputBtn.addEventListener("click", () => {
+        addManyFromInput(bachInput.value);
+        bachInput.value = "";
+        bachInput.focus();
+      });
+
+      bachInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          addByInputBtn.click();
+        }
+      });
+
+      addPastBtn.addEventListener("click", () => {
+        addPastManyFromInput(pastBachInput.value);
+        pastBachInput.value = "";
+        pastBachInput.focus();
+      });
+
+      pastBachInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          addPastBtn.click();
+        }
+      });
+
+      previewReportBtn.addEventListener("click", () => {
+        renderInlinePreview();
+        previewLive.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      downloadPdfBtn.addEventListener("click", () => openSystemPrint("pdf"));
+      printReportBtn.addEventListener("click", () => openSystemPrint("print"));
+
+      reportDate.value = new Date().toISOString().slice(0, 10);
+
+      renderSelected();
+      renderPastSelected();
+    }
+
+    window.addEventListener("afterprint", () => {
+      document.body.classList.remove("print-preview-mode");
+    });
+
+    function onValueChange(raw) {
+      const value = normalizeValue(Number.parseFloat(raw));
+      if (value === null) {
+        renderStage(null);
+        return;
+      }
+      resourceInput.value = value.toFixed(1);
+      resourceRange.value = value.toFixed(1);
+      renderStage(value);
+      renderResourceHistoryAnalysis();
+      if (selected.size) {
+        renderRecommendations();
+      }
+    }
+
+    resourceInput.addEventListener("input", (e) => onValueChange(e.target.value));
+    resourceRange.addEventListener("input", (e) => onValueChange(e.target.value));
+    goalHealthInput.addEventListener("input", (e) => syncAuxResource(e.target.value));
+    goalHealthRange.addEventListener("input", (e) => syncAuxResource(e.target.value));
+    pastResourceInput.addEventListener("input", (e) => syncPastResource(e.target.value));
+    pastResourceRange.addEventListener("input", (e) => syncPastResource(e.target.value));
+    pastGoalHealthInput.addEventListener("input", (e) => syncPastGoalHealth(e.target.value));
+    pastGoalHealthRange.addEventListener("input", (e) => syncPastGoalHealth(e.target.value));
+
+    initBach();
+    onValueChange(resourceInput.value);
+    syncAuxResource(goalHealthInput.value);
+    syncPastResource(pastResourceInput.value);
+    syncPastGoalHealth(pastGoalHealthInput.value);
+  </script>
+</body>
+</html>
