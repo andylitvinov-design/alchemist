@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alchemist Projects</title>
+  <style>
+    :root {
+      --bg: #eef6f4;
+      --card: rgba(255, 255, 255, 0.9);
+      --text: #0f172a;
+      --muted: #475569;
+      --line: rgba(15, 118, 110, 0.16);
+      --accent: #0f766e;
+      --accent-2: #0b5d56;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(153, 246, 228, 0.9), transparent 34%),
+        linear-gradient(180deg, #f7fbfa 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 20px 64px;
+    }
+    .hero {
+      margin-bottom: 26px;
+    }
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid rgba(15, 118, 110, 0.2);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--accent-2);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 14px 0 12px;
+      font-size: clamp(34px, 6vw, 60px);
+      line-height: 0.96;
+      max-width: 720px;
+    }
+    .lead {
+      margin: 0;
+      max-width: 720px;
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .card {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--card);
+      box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(12px);
+    }
+    .card strong {
+      font-size: 20px;
+      line-height: 1.15;
+    }
+    .meta {
+      font-size: 14px;
+      color: var(--accent-2);
+      font-weight: 600;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid rgba(15, 118, 110, 0.18);
+      transition: transform 140ms ease, background 140ms ease;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: #fff;
+      color: var(--accent-2);
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">Alchemist</span>
+      <h1>Онлайн-версии HTML-проектов в этом репозитории</h1>
+      <p class="lead">Ниже собраны все текущие страницы проекта: полная версия, standalone-версия и новая standalone-версия с модулем истории препаратов Баха.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <span class="meta">Full Version</span>
+        <strong>Мини-проверка ступени У-Син</strong>
+        <p>Полная версия с DAO-блоком, рекомендациями по препаратам, динамикой препаратов и модулем истории ресурсов.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/mini_usin_stage_checker_module4.html">Открыть</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="meta">Standalone</span>
+        <strong>Standalone-версия</strong>
+        <p>Легкая автономная страница с DAO-блоком и основным модулем препаратов Баха без нижнего модуля истории препаратов.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/mini_usin_stage_checker_module4_standalone.html">Открыть</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="meta">Standalone + History</span>
+        <strong>История препаратов Баха</strong>
+        <p>Новая альтернативная standalone-версия с нижним блоком сравнения прошлых и текущих препаратов Баха.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/mini_usin_stage_checker_module4_standalone_bach_history.html">Открыть</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="meta">Standalone + Analyze</span>
+        <strong>Карточки Баха из методички</strong>
+        <p>Отдельная standalone-версия с кнопкой «Анализ»: после выбора препаратов подтягивает фото и краткие описания из локальной методички Баха.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/mini_usin_stage_checker_module4_standalone_bach_cards.html">Открыть</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="meta">Standalone + History + Cards</span>
+        <strong>История и карточки Баха</strong>
+        <p>Версия на базе модуля истории препаратов Баха, где внизу дополнительно показываются фото и полные описания текущего выбранного набора.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/mini_usin_stage_checker_module4_standalone_bach_history_cards.html">Открыть</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="meta">Simple Menu</span>
+        <strong>Простое меню препаратов Баха</strong>
+        <p>Отдельный минимальный HTML: один список выбора препарата и ниже одна карточка с фото и полным текстом из локального snapshot-файла.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/bach_remedy_simple_menu.html">Открыть</a>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Мини-проверка ступени У-Син</title>
+  <title>Мини-проверка ступени У-Син: история препаратов Баха</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f766e'/%3E%3Cpath d='M18 34c9-13 19-19 28-18-8 4-13 12-16 20 6-3 10-3 16-2-7 6-15 10-29 10 1-3 1-6 1-10Z' fill='%23ccfbf1'/%3E%3C/svg%3E">
   <style>
     :root {
       --bg: #f4f7fb;
@@ -208,24 +209,53 @@
       box-shadow: 0 16px 40px rgba(16, 24, 40, 0.08);
       overflow: hidden;
     }
-    .preview-live.is-visible { display: block; }
+    .preview-live.is-visible {
+      display: block;
+    }
     .preview-live-head {
       padding: 14px 16px;
       border-bottom: 1px solid var(--line);
       background: #f8fafc;
     }
-    .preview-live-body { padding: 16px; background: #fff; }
-    .preview-live-status { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+    .preview-live-body {
+      padding: 16px;
+      background: #fff;
+    }
+    .preview-live-status {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
     @media print {
-      body.print-preview-mode { background: #fff; }
-      body.print-preview-mode .wrap > * { display: none !important; }
-      body.print-preview-mode .wrap > .export-panel {
-        display: block !important; margin: 0 !important; padding: 0 !important; border: none !important; box-shadow: none !important; background: #fff !important;
+      body.print-preview-mode {
+        background: #fff;
       }
-      body.print-preview-mode .export-panel > :not(.preview-live) { display: none !important; }
-      body.print-preview-mode .preview-live { display: block !important; margin: 0 !important; border: none !important; box-shadow: none !important; }
-      body.print-preview-mode .preview-live-head { display: none !important; }
-      body.print-preview-mode .preview-live-body { padding: 0 !important; }
+      body.print-preview-mode .wrap > * {
+        display: none !important;
+      }
+      body.print-preview-mode .wrap > .export-panel {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: #fff !important;
+      }
+      body.print-preview-mode .export-panel > :not(.preview-live) {
+        display: none !important;
+      }
+      body.print-preview-mode .preview-live {
+        display: block !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+      body.print-preview-mode .preview-live-head {
+        display: none !important;
+      }
+      body.print-preview-mode .preview-live-body {
+        padding: 0 !important;
+      }
     }
     .recommend-list {
       display: grid;
@@ -278,6 +308,11 @@
       .topbar { grid-template-columns: 1fr; }
       .grid { grid-template-columns: 1fr; }
       .checklist { grid-template-columns: 1fr 1fr; }
+      .recommend-list {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+      }
     }
     @media (max-width: 620px) {
       .checklist { grid-template-columns: 1fr; }
@@ -289,7 +324,7 @@
     <section class="topbar">
       <div>
         <h1>Мини-проверка ступени У-Син</h1>
-        <p class="hint">Слева ввод ресурса «Я» и отдельного ресурса цели/здоровья, справа ступень и краткие особенности по DAO-модели.</p>
+        <p class="hint">Альтернативная standalone-страница: сохранены DAO-блок и основной модуль препаратов Баха, а внизу добавлен отдельный анализ динамики прошлых и текущих препаратов.</p>
       </div>
 
       <div class="topbar-actions">
@@ -332,43 +367,6 @@
 
     <section class="grid">
       <div class="card">
-        <span class="chip">Четвертый модуль</span>
-        <h3>Предыдущие значения ресурсов</h3>
-        <p class="muted">Введите предыдущие значения, чтобы справа увидеть понятный вывод по изменению ресурса «Я» и ресурса цели / здоровья.</p>
-
-        <div class="controls">
-          <div class="control-group">
-            <label class="label" for="pastResourceInput">Предыдущий ресурс «Я»</label>
-            <div class="value-row">
-              <input id="pastResourceInput" type="number" min="0" max="10" step="0.1" value="3.2">
-              <strong id="pastResourceEcho">3.2</strong>
-            </div>
-            <input id="pastResourceRange" type="range" min="0" max="10" step="0.1" value="3.2">
-          </div>
-
-          <div class="control-group">
-            <label class="label" for="pastGoalHealthInput">Предыдущий ресурс цели / здоровья</label>
-            <div class="value-row">
-              <input id="pastGoalHealthInput" type="number" min="0" max="10" step="0.1" value="3.1">
-              <strong id="pastGoalHealthEcho">3.1</strong>
-            </div>
-            <input id="pastGoalHealthRange" type="range" min="0" max="10" step="0.1" value="3.1">
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="chip">Выводы</span>
-        <h3>Вывод по динамике ресурсов</h3>
-        <p class="transition-label">Сопоставление строится по предыдущим значениям слева и текущим значениям из верхнего модуля.</p>
-        <div class="transition-box" id="resourceHistoryReport">
-          <p class="muted">Измените значения слева или сверху, чтобы увидеть вывод по динамике ресурсов.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="card">
         <span class="chip">Препараты Баха</span>
         <h3>Выбор препаратов</h3>
         <p class="muted">Ввод поддерживает один или несколько препаратов через запятую/точку с запятой. Регистр не важен. Можно вводить англ. и русские названия (для популярных позиций).</p>
@@ -406,18 +404,15 @@
 
     <section class="grid">
       <div class="card">
-        <span class="chip">Второй модуль</span>
-        <h3>Препараты, которые были ранее (уже не нужны)</h3>
-        <p class="muted">Введите один или несколько препаратов через запятую/точку с запятой, затем нажмите «Добавить в прошлые».</p>
+        <span class="chip">История препаратов</span>
+        <h3>Предыдущие параметры препараты Баха</h3>
+        <p class="muted">Отметьте препараты, которые раньше резонировали. Этот список сравнивается с текущим выбором выше.</p>
 
-        <label class="label" for="pastBachInput">Ввод прошлых препаратов</label>
-        <div class="row">
-          <input id="pastBachInput" list="bachNames" type="text" placeholder="Например: Mimulus, Aspen; White Chestnut">
-          <button class="btn" id="addPastBtn" type="button">Добавить в прошлые</button>
-        </div>
+        <label class="label">Предыдущие препараты</label>
+        <div class="checklist" id="pastBachChecklist"></div>
 
         <div class="selected">
-          <label class="label">Ранее нужные, сейчас не нужны</label>
+          <label class="label">Было ранее</label>
           <div class="pill-list" id="pastSelectedList"></div>
           <p class="muted" id="pastSelectedEmpty">Пока список пуст.</p>
         </div>
@@ -425,10 +420,10 @@
 
       <div class="card">
         <span class="chip">Анализ динамики</span>
-        <h3>Анализ и рекомендации (было / осталось)</h3>
-        <p class="transition-label">Сопоставление строится по текущему списку «Выбрано» и списку «Ранее нужные, сейчас не нужны».</p>
+        <h3>Что изменилось по препаратам Баха</h3>
+        <p class="transition-label">Справа сравниваются предыдущие препараты и текущий набор: что ушло, что осталось и какие темы сейчас звучат сильнее.</p>
         <div class="transition-box" id="transitionReport">
-          <p class="muted">Добавьте «ранее нужные» препараты слева, чтобы увидеть сравнительный анализ справа.</p>
+          <p class="muted">Отметьте слева препараты, которые раньше резонировали, и здесь появится сравнительный анализ.</p>
         </div>
       </div>
     </section>
@@ -450,6 +445,7 @@
         <div class="preview-live-body" id="previewLiveBody"></div>
       </div>
     </section>
+
   </main>
 
   <datalist id="bachNames"></datalist>
@@ -660,12 +656,6 @@
     const goalHealthInput = document.getElementById("goalHealthInput");
     const goalHealthRange = document.getElementById("goalHealthRange");
     const goalHealthEcho = document.getElementById("goalHealthEcho");
-    const pastResourceInput = document.getElementById("pastResourceInput");
-    const pastResourceRange = document.getElementById("pastResourceRange");
-    const pastResourceEcho = document.getElementById("pastResourceEcho");
-    const pastGoalHealthInput = document.getElementById("pastGoalHealthInput");
-    const pastGoalHealthRange = document.getElementById("pastGoalHealthRange");
-    const pastGoalHealthEcho = document.getElementById("pastGoalHealthEcho");
     const stageName = document.getElementById("stageName");
     const stageRange = document.getElementById("stageRange");
     const stageBody = document.getElementById("stageBody");
@@ -686,13 +676,10 @@
     const clientName = document.getElementById("clientName");
     const reportDate = document.getElementById("reportDate");
     const bachNames = document.getElementById("bachNames");
-    const pastBachInput = document.getElementById("pastBachInput");
-    const addPastBtn = document.getElementById("addPastBtn");
+    const pastBachChecklist = document.getElementById("pastBachChecklist");
     const pastSelectedList = document.getElementById("pastSelectedList");
     const pastSelectedEmpty = document.getElementById("pastSelectedEmpty");
     const transitionReport = document.getElementById("transitionReport");
-    const resourceHistoryReport = document.getElementById("resourceHistoryReport");
-
     const selected = new Set();
     const noLongerNeeded = new Set();
 
@@ -737,111 +724,11 @@
       const value = normalizeValue(Number.parseFloat(raw));
       if (value === null) {
         goalHealthEcho.textContent = "-";
-        renderResourceHistoryAnalysis();
         return;
       }
       goalHealthInput.value = value.toFixed(1);
       goalHealthRange.value = value.toFixed(1);
       goalHealthEcho.textContent = value.toFixed(1);
-      renderResourceHistoryAnalysis();
-    }
-
-    function syncPastResource(raw) {
-      const value = normalizeValue(Number.parseFloat(raw));
-      if (value === null) {
-        pastResourceEcho.textContent = "-";
-        renderResourceHistoryAnalysis();
-        return;
-      }
-      pastResourceInput.value = value.toFixed(1);
-      pastResourceRange.value = value.toFixed(1);
-      pastResourceEcho.textContent = value.toFixed(1);
-      renderResourceHistoryAnalysis();
-    }
-
-    function syncPastGoalHealth(raw) {
-      const value = normalizeValue(Number.parseFloat(raw));
-      if (value === null) {
-        pastGoalHealthEcho.textContent = "-";
-        renderResourceHistoryAnalysis();
-        return;
-      }
-      pastGoalHealthInput.value = value.toFixed(1);
-      pastGoalHealthRange.value = value.toFixed(1);
-      pastGoalHealthEcho.textContent = value.toFixed(1);
-      renderResourceHistoryAnalysis();
-    }
-
-    function getDeltaLabel(delta) {
-      if (delta >= 1.0) return "сильный рост";
-      if (delta >= 0.3) return "рост";
-      if (delta > -0.3) return "без заметного сдвига";
-      if (delta > -1.0) return "снижение";
-      return "сильное снижение";
-    }
-
-    function getDirectionSummary(resourceDelta, goalDelta) {
-      const resourceUp = resourceDelta >= 0.3;
-      const goalUp = goalDelta >= 0.3;
-      const resourceDown = resourceDelta <= -0.3;
-      const goalDown = goalDelta <= -0.3;
-
-      if (resourceUp && goalUp) {
-        return "Рост по обеим шкалам: опора и реализация усилились вместе.";
-      }
-      if (resourceDown && goalDown) {
-        return "Снижение по обеим шкалам: запас сил и результативность просели вместе.";
-      }
-      if (resourceUp && goalDown) {
-        return "«Я» выросло, а здоровье/цель снизилось: внутренний запас есть, но он пока не переходит в результат.";
-      }
-      if (resourceDown && goalUp) {
-        return "Здоровье/цель выросло при снижении «Я»: результат держится дороже, чем должен.";
-      }
-      return "Явного общего вектора нет: изменения разнонаправленные или слишком малы.";
-    }
-
-    function renderResourceHistoryAnalysis() {
-      const currentResource = normalizeValue(Number.parseFloat(resourceInput.value));
-      const currentGoal = normalizeValue(Number.parseFloat(goalHealthInput.value));
-      const pastResource = normalizeValue(Number.parseFloat(pastResourceInput.value));
-      const pastGoal = normalizeValue(Number.parseFloat(pastGoalHealthInput.value));
-
-      resourceHistoryReport.innerHTML = "";
-
-      if (currentResource === null || currentGoal === null || pastResource === null || pastGoal === null) {
-        resourceHistoryReport.innerHTML = '<p class="muted">Введите четыре числовых значения от 0 до 10, чтобы увидеть вывод по динамике ресурсов.</p>';
-        return;
-      }
-
-      const currentStage = detectStage(currentResource);
-      const pastStage = detectStage(pastResource);
-      const resourceDelta = Math.round((currentResource - pastResource) * 10) / 10;
-      const goalDelta = Math.round((currentGoal - pastGoal) * 10) / 10;
-      let recommendationText = "";
-
-      if (resourceDelta >= 0.3 && goalDelta >= 0.3) {
-        recommendationText = "Сейчас можно опираться на рост ресурса и реализации: не ускоряться резко, а закреплять новую устойчивость через ровный ритм и посильные действия.";
-      } else if (resourceDelta <= -0.3 && goalDelta <= -0.3) {
-        recommendationText = "Сейчас лучше не усиливать нагрузку: сначала вернуть базовую опору, снизить перегруз и дать себе более щадящий режим восстановления.";
-      } else if (resourceDelta >= 0.3 && goalDelta <= -0.3) {
-        recommendationText = "Внутренний ресурс вырос, но в результат он пока не собирается: стоит меньше распыляться и переводить силы в один конкретный приоритет.";
-      } else if (resourceDelta <= -0.3 && goalDelta >= 0.3) {
-        recommendationText = "Результат держится дороже, чем должен: важно не тянуть его за счет перенапряжения, а вернуть опору и темп, который не истощает.";
-      } else {
-        recommendationText = "Резкого сдвига нет: сейчас полезнее не форсировать изменения, а спокойно закреплять текущее состояние и наблюдать, где появляется самый живой отклик.";
-      }
-
-      if (pastStage && currentStage && pastStage.name !== currentStage.name) {
-        recommendationText += " Переход из «" + pastStage.name + "» в «" + currentStage.name + "» показывает смену этапа, поэтому и опору лучше строить уже по задачам новой ступени.";
-      }
-
-      if (currentStage) {
-        const focusText = currentStage.points[2].replace(/^Фокус:\s*/i, "").replace(/\.$/, "");
-        recommendationText += " Сейчас опора — " + focusText + ".";
-      }
-
-      resourceHistoryReport.textContent = recommendationText;
     }
 
     function canonicalize(name) {
@@ -894,6 +781,7 @@
       });
 
       renderRecommendations();
+      renderTransitionAnalysis();
     }
 
     function renderRecommendations() {
@@ -901,8 +789,7 @@
 
       if (!names.length) {
         recommendList.innerHTML = '<p class="muted">Выберите препараты слева, и здесь появится понятное пояснение по каждому из них.</p>';
-        overallText.textContent = "После выбора препаратов здесь появится общий смысл сочетания, его общий паттерн и сверка с текущей ступенью DAO.";
-        renderTransitionAnalysis();
+        overallText.textContent = "После выбора препаратов здесь появится общий смысл сочетания, его общий паттерн, связь со ступенью DAO и короткие рекомендации.";
         return;
       }
 
@@ -916,18 +803,8 @@
         recommendList.appendChild(card);
       });
 
-      const tagCounts = {};
-      names.forEach((n) => {
-        (tagMap[n] || []).forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
-      });
-
-      const domainScores = {};
-      Object.entries(tagCounts).forEach(([tag, weight]) => {
-        const domain = themeToDomain[tag];
-        if (!domain) return;
-        domainScores[domain] = (domainScores[domain] || 0) + weight;
-      });
-
+      const tagCounts = collectTagScores(names);
+      const domainScores = collectDomainScores(names);
       const dominantDomains = Object.entries(domainScores)
         .sort((a, b) => b[1] - a[1])
         .map((x) => x[0])
@@ -940,22 +817,37 @@
         .sort((a, b) => b[1] - a[1])
         .map((x) => x[0]);
 
-      overallText.innerHTML = buildOverallBachAnalysis(dominantDomains, currentStage, currentTags);
-      renderTransitionAnalysis();
-    }
-
-    function addPastManyFromInput(raw) {
-      const parts = raw.split(/[;,\n]+/).map((x) => x.trim()).filter(Boolean);
-      parts.forEach((p) => {
-        const c = canonicalize(p);
-        if (c) noLongerNeeded.add(c);
+      const coreTags = findCoreTags(tagCounts, names.length);
+      overallText.innerHTML = buildOverallBachAnalysis({
+        names,
+        dominantDomains,
+        currentStage,
+        currentTags,
+        coreTags
       });
-      renderPastSelected();
     }
 
-    function removePastItem(name) {
-      noLongerNeeded.delete(name);
-      renderPastSelected();
+    function renderPastSelected() {
+      const arr = Array.from(noLongerNeeded).sort((a, b) => a.localeCompare(b));
+      pastSelectedList.innerHTML = "";
+      pastSelectedEmpty.style.display = arr.length ? "none" : "block";
+
+      arr.forEach((name) => {
+        const el = document.createElement("span");
+        el.className = "pill";
+        el.innerHTML = `<span>${name}</span><button type="button" aria-label="Удалить ${name}">×</button>`;
+        el.querySelector("button").addEventListener("click", () => {
+          noLongerNeeded.delete(name);
+          renderPastSelected();
+        });
+        pastSelectedList.appendChild(el);
+      });
+
+      pastBachChecklist.querySelectorAll("input[type='checkbox']").forEach((cb) => {
+        cb.checked = noLongerNeeded.has(cb.value);
+      });
+
+      renderTransitionAnalysis();
     }
 
     function collectDomainScores(names) {
@@ -981,21 +873,6 @@
       return tagCounts;
     }
 
-    function renderPastSelected() {
-      const arr = Array.from(noLongerNeeded).sort((a, b) => a.localeCompare(b));
-      pastSelectedList.innerHTML = "";
-      pastSelectedEmpty.style.display = arr.length ? "none" : "block";
-
-      arr.forEach((name) => {
-        const el = document.createElement("span");
-        el.className = "pill";
-        el.innerHTML = `<span>${name}</span><button type="button" aria-label="Удалить ${name}">×</button>`;
-        el.querySelector("button").addEventListener("click", () => removePastItem(name));
-        pastSelectedList.appendChild(el);
-      });
-
-      renderTransitionAnalysis();
-    }
 
     function buildResolvedText(domainKey) {
       const map = {
@@ -1069,6 +946,11 @@
       return map[tag] || tag;
     }
 
+    function listToTableValue(items) {
+      if (!items.length) return "<span class='empty-row'>Нет данных.</span>";
+      return items.map((item) => "<span class='tag'>" + escapeHtml(item) + "</span>").join("");
+    }
+
     function formatHumanList(items) {
       if (!items.length) return "";
       if (items.length === 1) return items[0];
@@ -1076,64 +958,197 @@
       return items.slice(0, -1).join(", ") + " и " + items[items.length - 1];
     }
 
-    function buildDaoStageLens(stage, dominantDomains) {
-      if (!stage) return "";
+    function findCoreTags(tagCounts, remedyCount) {
+      const sorted = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+      if (!sorted.length) return [];
 
-      const primary = dominantDomains[0] || null;
-      const stageName = stage.name;
-      const taskText = stage.points[1].replace(/^Задача:\s*/i, "").replace(/\.$/, "");
-      const focusText = stage.points[2].replace(/^Фокус:\s*/i, "").replace(/\.$/, "");
+      const threshold = remedyCount <= 2
+        ? 1
+        : Math.max(2, Math.ceil(remedyCount * 0.6));
 
-      if (primary === "self_worth") {
-        return "На стадии «" + stageName + "» это особенно уместно, если набор уменьшает самокритику и возвращает внутреннюю опору.";
-      }
-      if (primary === "control") {
-        return "На стадии «" + stageName + "» это звучит точно, если набор помогает держать курс мягче и не зажиматься в контроле.";
-      }
-      if (primary === "anxiety") {
-        return "На стадии «" + stageName + "» это особенно важно, потому что лишняя тревога мешает проживать задачу ступени спокойно.";
-      }
-      if (primary === "depletion") {
-        return "На стадии «" + stageName + "» это уместно, если набор сначала возвращает ресурс, а уже потом поддерживает движение.";
-      }
-      return "На стадии «" + stageName + "» важно держать вектор \"" + taskText.toLowerCase() + "\" и опираться на " + focusText + ".";
+      const core = sorted
+        .filter(([, count]) => count >= threshold)
+        .map(([tag]) => tag)
+        .slice(0, 3);
+
+      return core.length ? core : sorted.slice(0, 3).map(([tag]) => tag);
     }
 
-    function buildOverallBachAnalysis(dominantDomains, currentStage, currentTags) {
+    function buildCoreThemeLine(dominantDomains, coreTags) {
+      const primary = dominantDomains[0] || null;
+      const secondary = dominantDomains[1] || null;
+      const coreTagText = coreTags.length
+        ? formatHumanList(coreTags.slice(0, 3).map(buildTagText))
+        : "";
+
+      if (primary === "anxiety" && secondary === "control") {
+        return "Общий смысл этого набора не в отдельных разрозненных симптомах, а в одной линии: тревога и внутреннее напряжение легко переходят в контроль, чтобы не дать состоянию рассыпаться.";
+      }
+      if (primary === "depletion" && (secondary === "anxiety" || secondary === "control")) {
+        return "Общий мотив набора в том, что система устала держать нагрузку, а поверх усталости уже наслаиваются тревога и попытка все удержать усилием.";
+      }
+      if (primary === "self_worth") {
+        return "Общий мотив набора в том, что сейчас особенно уязвима внутренняя опора: слишком легко включаются самокритика, сомнения в себе и зависимость от внешнего подтверждения.";
+      }
+      if (primary === "boundaries") {
+        return "Общий смысл набора в том, что человеку важно не просто стать спокойнее, а научиться оставаться собой в контакте, не уходя ни в жесткость, ни в уступчивость.";
+      }
+      if (primary === "cognitive") {
+        return "Общий мотив набора в том, что перегруз мыслей и колебания забирают слишком много ресурса, поэтому состоянию не хватает внутренней ясности и простоты.";
+      }
+      if (primary === "identity") {
+        return "Общий смысл набора в том, что сейчас важен не столько темп, сколько прояснение собственного курса и более честное ощущение \"куда я иду\".";
+      }
+      if (primary === "trauma") {
+        return "Общий мотив набора в том, что нервная система все еще живет с повышенной чувствительностью, поэтому безопасность и мягкость здесь важнее форсирования.";
+      }
+      if (coreTagText) {
+        return "Общий смысл набора лучше всего читается через повторяющиеся темы: " + coreTagText + ".";
+      }
+      return "Сейчас набор скорее собирает состояние вокруг одного центра тяжести и помогает не распадаться на несколько конкурирующих задач сразу.";
+    }
+
+    function buildStageTask(stage) {
+      if (!stage) return "";
+      return stage.points[1].replace(/^Задача:\s*/i, "").replace(/\.$/, "");
+    }
+
+    function buildStageFocus(stage) {
+      if (!stage) return "";
+      return stage.points[2].replace(/^Фокус:\s*/i, "").replace(/\.$/, "");
+    }
+
+    function buildDaoConnection(stage, dominantDomains) {
+      if (!stage) {
+        return "Связь со ступенью DAO можно уточнить после ввода значения ресурса «Я».";
+      }
+
+      const primary = dominantDomains[0] || null;
+      const taskText = buildStageTask(stage);
+      const focusText = buildStageFocus(stage);
+
+      if (primary === "self_worth") {
+        return "На стадии «" + stage.name + "» это особенно важно: здесь мало просто чувствовать ценность, нужно еще удерживать ее без изоляции и без постоянной подпитки извне.";
+      }
+      if (primary === "control") {
+        return "На стадии «" + stage.name + "» это звучит точно, потому что главный риск здесь не потерять курс, а зажать его слишком жестким контролем.";
+      }
+      if (primary === "anxiety") {
+        return "На стадии «" + stage.name + "» тревога особенно мешает, потому что не дает спокойно проживать задачу ступени: \"" + taskText.toLowerCase() + "\".";
+      }
+      if (primary === "depletion") {
+        return "На стадии «" + stage.name + "» набор уместен, если сначала возвращает запас сил, а уже потом помогает двигаться в сторону \"" + focusText.toLowerCase() + "\".";
+      }
+      if (primary === "boundaries") {
+        return "На стадии «" + stage.name + "» это важно, потому что задача здесь не только в устойчивости, но и в том, чтобы не прятать себя за защитной дистанцией.";
+      }
+      return "На стадии «" + stage.name + "» главный ориентир сейчас — \"" + taskText.toLowerCase() + "\". Набор логично поддерживает именно этот переход и помогает опираться на " + focusText.toLowerCase() + ".";
+    }
+
+    function buildSituationDescription(dominantDomains, currentTags) {
+      const primary = dominantDomains[0] || null;
+      const tagText = currentTags.length
+        ? formatHumanList(currentTags.slice(0, 3).map(buildTagText))
+        : "";
+
+      if (primary === "anxiety" && dominantDomains.includes("control")) {
+        return "Обычно это переживается так: внутри много напряжения и настороженности, поэтому человек все время старается заранее подстраховаться, все предусмотреть и ничего не выпустить из рук.";
+      }
+      if (primary === "depletion") {
+        return "Обычно это выглядит так: человек еще держится и делает нужное, но внутри уже мало свободного ресурса, поэтому любая лишняя нагрузка быстро ощущается как перегруз.";
+      }
+      if (primary === "self_worth") {
+        return "Обычно это состояние ощущается так: снаружи можно выглядеть собранно, но внутри слишком легко включаются сомнения в себе, самокритика и потребность снова проверить свою ценность.";
+      }
+      if (primary === "boundaries") {
+        return "Обычно это выглядит так: в контакте с людьми трудно сохранить собственный ритм, потому что слишком быстро включается подстройка, уступчивость или желание дистанцироваться.";
+      }
+      if (primary === "cognitive") {
+        return "Обычно это переживается как мыслительная перегрузка: много внутренних движений, много вариантов, а ясного простого решения от этого не прибавляется.";
+      }
+      if (primary === "identity") {
+        return "Обычно это ощущается как внутренний вопрос \"куда мне сейчас по-настоящему идти\", когда вроде движение возможно, но направление еще не стало достаточно ясным.";
+      }
+      if (primary === "trauma") {
+        return "Обычно это состояние проживается как повышенная чувствительность: система слишком быстро считывает перегруз и долго возвращается в спокойный режим.";
+      }
+      if (tagText) {
+        return "Сейчас это чаще всего проявляется через такие темы, как " + tagText + ", поэтому фокус лучше держать на одном основном узле, а не распыляться на все сразу.";
+      }
+      return "Сейчас состояние лучше читать не как набор отдельных жалоб, а как одну общую ситуацию, где системе нужна более мягкая и точная поддержка.";
+    }
+
+    function buildActionItems(dominantDomains, stage) {
+      const actions = [];
+      const primary = dominantDomains[0] || null;
+
+      if (primary === "anxiety") {
+        actions.push("сначала снижать внутреннее напряжение, а не требовать от себя большей скорости");
+        actions.push("уменьшить количество ситуаций, где нужно держать в голове слишком много вариантов сразу");
+      }
+      if (primary === "control") {
+        actions.push("ловить моменты, где контроль включается как защита, и переводить их в более мягкие решения");
+      }
+      if (primary === "depletion") {
+        actions.push("защитить ресурс: меньше перегруза, больше коротких восстановительных пауз");
+        actions.push("не принимать лишних решений в состоянии усталости");
+      }
+      if (primary === "self_worth") {
+        actions.push("снижать внутреннюю критику и опираться на небольшие реальные действия, а не на самооценочные качели");
+      }
+      if (primary === "boundaries") {
+        actions.push("замедляться перед согласием и проверять, есть ли у этого решения внутреннее \"да\"");
+      }
+      if (primary === "cognitive") {
+        actions.push("оставлять один приоритет на короткий отрезок времени, чтобы уменьшить мыслительный шум");
+      }
+      if (primary === "identity") {
+        actions.push("проверять направление маленькими шагами, а не ждать полной ясности заранее");
+      }
+      if (primary === "trauma") {
+        actions.push("держать бережный темп и предсказуемый режим, не перегружая нервную систему новыми стимулами");
+      }
+
+      if (stage) {
+        const taskText = buildStageTask(stage);
+        actions.push("сверять действия с задачей текущей ступени: " + taskText.toLowerCase());
+      }
+
+      return actions.slice(0, 3);
+    }
+
+    function buildOverallBachAnalysis(context) {
+      const { names, dominantDomains, currentStage, currentTags, coreTags } = context;
       const lead = dominantDomains[0] ? domainInsights[dominantDomains[0]] : null;
       const second = dominantDomains[1] ? domainInsights[dominantDomains[1]] : null;
-      const parts = [];
+      const coreLine = buildCoreThemeLine(dominantDomains, coreTags);
+      const daoLine = buildDaoConnection(currentStage, dominantDomains);
+      const situationLine = buildSituationDescription(dominantDomains, currentTags);
+      const actionItems = buildActionItems(dominantDomains, currentStage);
+      const leadLine = lead
+        ? "Если совсем просто, сейчас на первом плане " + lead.label + " — " + lead.meaning + "."
+        : "Если совсем просто, сейчас набор нужен, чтобы сделать состояние ровнее и спокойнее.";
+      const secondLine = second
+        ? "Рядом с этим еще звучит " + second.label.toLowerCase() + "."
+        : "";
+      const actionLead = actionItems.length
+        ? "Сейчас лучше не пытаться решить все сразу, а держаться за более простой ритм: " + actionItems.join("; ") + "."
+        : "Сейчас лучше не перегружать себя и держать один спокойный фокус.";
 
-      if (currentStage) {
-        parts.push("По шкале DAO это стадия «" + currentStage.name + "».");
-      }
+      const paragraphOne = [
+        coreLine,
+        leadLine,
+        secondLine,
+        daoLine
+      ].filter(Boolean).join(" ");
 
-      if (lead) {
-        parts.push("Сейчас на первом плане " + lead.label + ". Проще говоря, " + lead.meaning + ".");
-        parts.push("Сейчас важнее всего " + lead.focus + ".");
-      } else {
-        parts.push("Сейчас набор скорее мягко выравнивает общее состояние и помогает сделать фон спокойнее.");
-      }
+      const paragraphTwo = [
+        situationLine,
+        actionLead,
+        names.length > 1 ? "Этот набор хорош тем, что он работает в одну сторону, а не тянет состояние в разные стороны." : ""
+      ].filter(Boolean).join(" ");
 
-      if (second) {
-        parts.push("Вторым слоем идет " + second.label + ": " + second.meaning + ".");
-      }
-
-      if (dominantDomains.includes("anxiety") && dominantDomains.includes("control")) {
-        parts.push("Похоже, тревога и контроль сейчас подпитывают друг друга: чем больше внутреннего напряжения, тем сильнее хочется все держать под контролем.");
-      }
-      if (dominantDomains.includes("depletion") && (dominantDomains.includes("anxiety") || dominantDomains.includes("control"))) {
-        parts.push("Поэтому сначала лучше вернуть силы и устойчивость, а уже потом повышать нагрузку. Иначе состояние может снова быстро просесть.");
-      }
-      if (dominantDomains.includes("self_worth")) {
-        parts.push("Отдельно стоит поддержать самоценность: меньше внутренней критики и больше небольших действий, которые возвращают опору на себя.");
-      } else if (currentTags.length) {
-        parts.push("Сильнее всего здесь звучат " + formatHumanList(currentTags.slice(0, 3).map(buildTagText)) + ".");
-      }
-
-      parts.push("Текущий набор препаратов логично поддерживает именно эти задачи и не перегружает фокус.");
-
-      return "<p>" + escapeHtml(parts.filter(Boolean).join(" ")) + "</p>";
+      return "<p>" + escapeHtml(paragraphOne) + "</p><p>" + escapeHtml(paragraphTwo) + "</p>";
     }
 
     function renderTransitionAnalysis() {
@@ -1143,30 +1158,18 @@
       transitionReport.innerHTML = "";
 
       if (!past.length) {
-        transitionReport.innerHTML = '<p class="muted">Добавьте слева препараты, которые раньше были нужны, и здесь появится понятная динамика: что уже ушло, а что еще остается актуальным.</p>';
+        transitionReport.innerHTML = '<p class="muted">Отметьте слева препараты, которые раньше резонировали, и здесь появится сравнительный анализ.</p>';
         return;
       }
 
-      const stillNeeded = current.filter((name) => !noLongerNeeded.has(name));
       const overlap = current.filter((name) => noLongerNeeded.has(name));
+      const stillNeeded = current.filter((name) => !noLongerNeeded.has(name));
       const pastTagScores = collectTagScores(past);
       const activeTagScores = collectTagScores(stillNeeded);
       const pastScores = collectDomainScores(past);
       const activeScores = collectDomainScores(stillNeeded);
       const allDomains = Object.keys({ ...pastScores, ...activeScores });
       const allTags = Object.keys({ ...pastTagScores, ...activeTagScores });
-
-      const reducedTags = allTags
-        .map((tag) => [tag, (pastTagScores[tag] || 0) - (activeTagScores[tag] || 0)])
-        .filter(([, delta]) => delta > 0)
-        .sort((a, b) => b[1] - a[1])
-        .map((x) => x[0]);
-
-      const currentTags = allTags
-        .map((tag) => [tag, (activeTagScores[tag] || 0) - (pastTagScores[tag] || 0)])
-        .filter(([, delta]) => delta > 0)
-        .sort((a, b) => b[1] - a[1])
-        .map((x) => x[0]);
 
       const deltaResolved = allDomains
         .map((key) => [key, (pastScores[key] || 0) - (activeScores[key] || 0)])
@@ -1179,7 +1182,18 @@
         .sort((a, b) => b[1] - a[1])
         .map((x) => x[0]);
 
-      const resolvedDomains = deltaResolved.slice(0, 2).map((x) => x[0]);
+      const currentTags = allTags
+        .map((tag) => [tag, (activeTagScores[tag] || 0) - (pastTagScores[tag] || 0)])
+        .filter(([, delta]) => delta > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]);
+
+      const reducedTags = allTags
+        .map((tag) => [tag, (pastTagScores[tag] || 0) - (activeTagScores[tag] || 0)])
+        .filter(([, delta]) => delta > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]);
+
       const keyChangedDomain = deltaResolved.length ? deltaResolved[0][0] : null;
       const stillActiveDomain = unchangedDomains.length ? unchangedDomains[0] : null;
       const currentValue = normalizeValue(Number.parseFloat(resourceInput.value));
@@ -1199,15 +1213,27 @@
         const activeLabel = domainInsights[stillActiveDomain]?.label || "основная тема состояния";
         changedText = "сохраняется " + activeLabel + ": динамика есть, но ядро текущей темы все еще активно";
       }
-      if (currentTags.length) {
-        changedText += ". Сейчас сильнее всего проявлены " + formatHumanList(currentTags.slice(0, 2).map(buildTagText)) + ".";
+
+      if (reducedTags.length) {
+        changedText += ". Ослабли темы " + formatHumanList(reducedTags.slice(0, 2).map(buildTagText)) + ".";
       } else if (!stillNeeded.length && !overlap.length) {
         changedText += ". Это похоже на переход к более спокойному этапу наблюдения.";
       } else {
         changedText += ".";
       }
+
       if (overlap.length) {
-        changedText += " Есть пересечение между прошлым и текущим списком: спорные позиции лучше отдельно уточнить.";
+        changedText += " Есть пересечение между прошлым и текущим списком: часть прежних тем все еще активна и требует уточнения.";
+      }
+
+      let newValuesText = "новый доминирующий слой пока не выделился: состояние скорее продолжает уже знакомую линию.";
+      if (currentTags.length) {
+        newValuesText = "на первый план сейчас выходят " + formatHumanList(currentTags.slice(0, 3).map(buildTagText)) + ".";
+      } else if (!stillNeeded.length && !overlap.length) {
+        newValuesText = "новых острых тем по текущему набору не видно: система выглядит спокойнее, чем раньше.";
+      } else if (stillActiveDomain) {
+        const activeLabel = domainInsights[stillActiveDomain]?.label || "текущая тема";
+        newValuesText = "главным текущим значением остается " + activeLabel + ": именно вокруг него сейчас держится выбор препаратов.";
       }
 
       let recommendationText = "сохранить поддержку узкой и не расширять список без новой динамики";
@@ -1219,6 +1245,7 @@
       } else if (currentTags.length) {
         recommendationText = "держать фокус на " + formatHumanList(currentTags.slice(0, 2).map(buildTagText)) + " и не перегружать схему";
       }
+
       if (currentStage) {
         const taskText = currentStage.points[1].replace(/^Задача:\s*/i, "").replace(/\.$/, "");
         const focusText = currentStage.points[2].replace(/^Фокус:\s*/i, "").replace(/\.$/, "");
@@ -1226,11 +1253,15 @@
       }
 
       const changedTitle = document.createElement("p");
-      changedTitle.innerHTML = "<strong>Что изменилось:</strong> " + changedText + ".";
+      changedTitle.innerHTML = "<strong>Что изменилось:</strong> " + changedText;
       transitionReport.appendChild(changedTitle);
 
+      const newValuesTitle = document.createElement("p");
+      newValuesTitle.innerHTML = "<strong>Новые значения сейчас:</strong> " + newValuesText;
+      transitionReport.appendChild(newValuesTitle);
+
       const recommendationTitle = document.createElement("p");
-      recommendationTitle.innerHTML = "<strong>Какие рекомендации:</strong> " + recommendationText + ".";
+      recommendationTitle.innerHTML = "<strong>Что делать дальше:</strong> " + recommendationText + ".";
       transitionReport.appendChild(recommendationTitle);
     }
 
@@ -1250,45 +1281,13 @@
       return d.toLocaleDateString("ru-RU");
     }
 
-    function listToTableValue(items) {
-      if (!items.length) return "<span class='empty-row'>Нет данных.</span>";
-      return items.map((item) => "<span class='tag'>" + escapeHtml(item) + "</span>").join("");
-    }
-
     function formatPdfValue(value) {
       return value === null ? "-" : value.toFixed(1);
-    }
-
-    function buildScaleBar(value, tone) {
-      if (value === null) {
-        return "<div class='pdf-scale'><div class='pdf-scale-track'></div></div><div class='small'>Нет данных</div>";
-      }
-
-      const width = Math.max(0, Math.min(100, value * 10));
-      return "<div class='pdf-scale'>" +
-        "<div class='pdf-scale-track'>" +
-        "<div class='pdf-scale-fill' style='width:" + width + "%;background:" + tone + ";'></div>" +
-        "<div class='pdf-scale-marker' style='left:calc(" + width + "% - 6px);border-color:" + tone + ";'></div>" +
-        "</div>" +
-        "<div class='pdf-scale-labels'><span>0</span><span>5</span><span>10</span></div>" +
-        "</div>" +
-        "<div class='small'>Значение: <strong>" + escapeHtml(value.toFixed(1)) + "</strong> из 10</div>";
-    }
-
-    function buildScaleCompareBlock(title, currentValue, pastValue, currentTone, pastTone) {
-      return "<div class='pdf-scale-card'>" +
-        "<div class='pdf-scale-head'><strong>" + escapeHtml(title) + "</strong>" +
-        "<span>Сейчас: " + escapeHtml(formatPdfValue(currentValue)) + " | Раньше: " + escapeHtml(formatPdfValue(pastValue)) + "</span></div>" +
-        "<div class='pdf-scale-row'><div><div class='small'>Текущее значение</div>" + buildScaleBar(currentValue, currentTone) + "</div></div>" +
-        "<div class='pdf-scale-row'><div><div class='small'>Предыдущее значение</div>" + buildScaleBar(pastValue, pastTone) + "</div></div>" +
-        "</div>";
     }
 
     function buildPdfHtml() {
       const value = normalizeValue(Number.parseFloat(resourceInput.value));
       const goalHealthValue = normalizeValue(Number.parseFloat(goalHealthInput.value));
-      const pastResourceValue = normalizeValue(Number.parseFloat(pastResourceInput.value));
-      const pastGoalHealthValue = normalizeValue(Number.parseFloat(pastGoalHealthInput.value));
       const stage = value === null ? null : detectStage(value);
       const selectedNames = Array.from(selected).sort((a, b) => a.localeCompare(b));
       const pastNames = Array.from(noLongerNeeded).sort((a, b) => a.localeCompare(b));
@@ -1302,13 +1301,8 @@
       const stageNameText = stage ? stage.name : "Не определена";
       const stageRangeText = stage ? stage.range : "-";
       const stageFeatures = stage ? stage.points.join(" ") : "Недостаточно данных для определения стадии.";
-      const overall = overallText.textContent || "-";
-      const transitionHtml = transitionReport.innerHTML
-        ? transitionReport.innerHTML
-        : "<p class='empty-row'>Динамика пока не сформирована.</p>";
-      const resourceHistoryHtml = resourceHistoryReport.innerHTML
-        ? resourceHistoryReport.innerHTML
-        : "<p class='empty-row'>Динамика ресурсов пока не сформирована.</p>";
+      const overallHtml = overallText.innerHTML || "<p>-</p>";
+      const transitionHtml = transitionReport.innerHTML || "<p class='empty-row'>Динамика пока не сформирована.</p>";
 
       return "<!doctype html><html lang='ru'><head><meta charset='utf-8'><title>Отчет У-Син</title>" +
         "<style>" +
@@ -1323,25 +1317,12 @@
         ".tag{display:inline-block;margin:0 6px 6px 0;padding:4px 10px;border:1px solid #cbd5e1;border-radius:999px;background:#f8fafc;font-size:12px;}" +
         ".analysis-cell p:last-child,.analysis-cell ul:last-child{margin-bottom:0;}" +
         ".empty-row{color:#4b5563;}" +
-        ".small{font-size:12px;color:#4b5563;}" +
-        ".pdf-scale-card{border:1px solid #d1d5db;border-radius:12px;padding:12px 14px;background:#fbfdff;margin:10px 0 14px;}" +
-        ".pdf-scale-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin:0 0 10px;}" +
-        ".pdf-scale-head span{font-size:12px;color:#4b5563;}" +
-        ".pdf-scale-row{margin:0 0 10px;}" +
-        ".pdf-scale-row:last-child{margin-bottom:0;}" +
-        ".pdf-scale{margin:4px 0 4px;}" +
-        ".pdf-scale-track{position:relative;height:12px;border-radius:999px;background:#e5e7eb;overflow:visible;}" +
-        ".pdf-scale-fill{height:100%;border-radius:999px;}" +
-        ".pdf-scale-marker{position:absolute;top:50%;width:12px;height:12px;border-radius:999px;background:#fff;border:2px solid #0f766e;transform:translateY(-50%);}" +
-        ".pdf-scale-labels{display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-top:4px;}" +
         "@media print { body{margin:12mm;} }" +
         "</style></head><body>" +
         "<h1>Клиентский отчет У-Син / Бах</h1>" +
         "<p class='meta'><strong>Клиент:</strong> " + escapeHtml(client) + " | <strong>Дата:</strong> " + escapeHtml(dateText) + "</p>" +
 
         "<h2>1. Стадия DAO (по ресурсу «Я»)</h2>" +
-        buildScaleCompareBlock("Шкала ресурса «Я»", value, pastResourceValue, "#0f766e", "#94a3b8") +
-        buildScaleCompareBlock("Шкала ресурса цели / здоровья", goalHealthValue, pastGoalHealthValue, "#2563eb", "#94a3b8") +
         "<table><tr><th style='width:30%'>Параметр</th><th>Значение</th></tr>" +
         "<tr><td>Ресурс «Я»</td><td>" + escapeHtml(formatPdfValue(value)) + "</td></tr>" +
         "<tr><td>Ресурс цели / здоровья</td><td>" + escapeHtml(formatPdfValue(goalHealthValue)) + "</td></tr>" +
@@ -1356,23 +1337,13 @@
 
         "<h2>3. Общий итог</h2>" +
         "<table><tr><th>Итоговая рекомендация по сочетанию препаратов</th></tr>" +
-        "<tr><td>" + escapeHtml(overall) + "</td></tr></table>" +
+        "<tr><td class='analysis-cell'>" + overallHtml + "</td></tr></table>" +
 
-        "<h2>4. Второй модуль: динамика</h2>" +
+        "<h2>4. Предыдущие препараты Баха</h2>" +
         "<table><tr><th style='width:30%'>Параметр</th><th>Значение</th></tr>" +
-        "<tr><td>Ранее нужные препараты</td><td>" + listToTableValue(pastNames) + "</td></tr>" +
-        "<tr><td>Текущие выбранные препараты</td><td>" + listToTableValue(selectedNames) + "</td></tr>" +
-        "<tr><td>Анализ изменений</td><td class='analysis-cell'>" + transitionHtml + "</td></tr></table>" +
-
-        "<h2>5. Четвертый модуль: динамика ресурсов</h2>" +
-        buildScaleCompareBlock("Динамика ресурса «Я»", value, pastResourceValue, "#0f766e", "#94a3b8") +
-        buildScaleCompareBlock("Динамика ресурса цели / здоровья", goalHealthValue, pastGoalHealthValue, "#2563eb", "#94a3b8") +
-        "<table><tr><th style='width:30%'>Параметр</th><th>Значение</th></tr>" +
-        "<tr><td>Предыдущий ресурс «Я»</td><td>" + escapeHtml(formatPdfValue(pastResourceValue)) + "</td></tr>" +
-        "<tr><td>Текущий ресурс «Я»</td><td>" + escapeHtml(formatPdfValue(value)) + "</td></tr>" +
-        "<tr><td>Предыдущий ресурс цели / здоровья</td><td>" + escapeHtml(formatPdfValue(pastGoalHealthValue)) + "</td></tr>" +
-        "<tr><td>Текущий ресурс цели / здоровья</td><td>" + escapeHtml(formatPdfValue(goalHealthValue)) + "</td></tr>" +
-        "<tr><td>Вывод по динамике</td><td class='analysis-cell'>" + resourceHistoryHtml + "</td></tr></table>" +
+        "<tr><td>Ранее резонировали</td><td>" + listToTableValue(pastNames) + "</td></tr>" +
+        "<tr><td>Текущий набор</td><td>" + listToTableValue(selectedNames) + "</td></tr>" +
+        "<tr><td>Сравнительный анализ</td><td class='analysis-cell'>" + transitionHtml + "</td></tr></table>" +
 
         "<p class='small'>Отчет сформирован автоматически из текущей формы.</p>" +
         "</body></html>";
@@ -1526,6 +1497,21 @@
         bachChecklist.appendChild(label);
       });
 
+      bachRemedies.forEach((name) => {
+        const label = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = name;
+        cb.addEventListener("change", (e) => {
+          if (e.target.checked) noLongerNeeded.add(name);
+          else noLongerNeeded.delete(name);
+          renderPastSelected();
+        });
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(name));
+        pastBachChecklist.appendChild(label);
+      });
+
       addByInputBtn.addEventListener("click", () => {
         addManyFromInput(bachInput.value);
         bachInput.value = "";
@@ -1536,19 +1522,6 @@
         if (e.key === "Enter") {
           e.preventDefault();
           addByInputBtn.click();
-        }
-      });
-
-      addPastBtn.addEventListener("click", () => {
-        addPastManyFromInput(pastBachInput.value);
-        pastBachInput.value = "";
-        pastBachInput.focus();
-      });
-
-      pastBachInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          addPastBtn.click();
         }
       });
 
@@ -1580,26 +1553,18 @@
       resourceInput.value = value.toFixed(1);
       resourceRange.value = value.toFixed(1);
       renderStage(value);
-      renderResourceHistoryAnalysis();
-      if (selected.size) {
-        renderRecommendations();
-      }
+      if (selected.size) renderRecommendations();
+      renderTransitionAnalysis();
     }
 
     resourceInput.addEventListener("input", (e) => onValueChange(e.target.value));
     resourceRange.addEventListener("input", (e) => onValueChange(e.target.value));
     goalHealthInput.addEventListener("input", (e) => syncAuxResource(e.target.value));
     goalHealthRange.addEventListener("input", (e) => syncAuxResource(e.target.value));
-    pastResourceInput.addEventListener("input", (e) => syncPastResource(e.target.value));
-    pastResourceRange.addEventListener("input", (e) => syncPastResource(e.target.value));
-    pastGoalHealthInput.addEventListener("input", (e) => syncPastGoalHealth(e.target.value));
-    pastGoalHealthRange.addEventListener("input", (e) => syncPastGoalHealth(e.target.value));
 
     initBach();
     onValueChange(resourceInput.value);
     syncAuxResource(goalHealthInput.value);
-    syncPastResource(pastResourceInput.value);
-    syncPastGoalHealth(pastGoalHealthInput.value);
   </script>
 </body>
 </html>
