@@ -1,5 +1,10 @@
 # Alchemist AGENTS
 
+## Mandatory cross-project PR economy rule — GLOBAL_PR_ONE_PUBLISH_V1
+
+Before **any** GitHub code change, branch publication or PR in this repository, read the [single global protocol](https://raw.githubusercontent.com/andylitvinov-design/ai-projects-brain/main/systems/pr-one-publish-standard.md). Prepare all related code/tests/docs and perform relevant local checks *before the first remote push* (a branch push can itself trigger CI or a paid preview even without an open PR). Publish one coherent branch HEAD, then open one PR; freeze the published HEAD while required checks run. Only publish a new complete HEAD for an independently verified failure or urgent security/correctness fix, then rerun all required checks. Never create per-file remote commit waves, empty CI wake commits, optional workflows, paid services or bypasses of local repository controls. For work without PR/CI this is N/A. This rule supplements all existing safety, deployment, and privacy instructions.
+
+
 ## Scope
 
 - Applies to `/Users/andriilitvinov/projects/MYPROJECTS/alchemist`.
